@@ -1,0 +1,3 @@
+tasks:
+  build:
+    command: "RAILS_ENV=development bin/rails s"
