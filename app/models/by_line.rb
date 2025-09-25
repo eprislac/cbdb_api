@@ -1,0 +1,2 @@
+class ByLine < ApplicationRecord
+end
