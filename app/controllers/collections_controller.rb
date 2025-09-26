@@ -13,7 +13,8 @@ class CollectionsController < ApplicationController
     render json: @collection
   end
 
-  # POST /collections
+  # POST /collections : Creates a new collection
+  # @return [JSON] the new collection
   def create
     @collection = Collection.new(collection_params)
 
@@ -26,22 +27,21 @@ class CollectionsController < ApplicationController
 
   # PATCH/PUT /collections/1
   def update
-    if @collection.update(collection_params)
-      render json: @collection
+    if collection.update(collection_params)
+      render json: collection
     else
-      render json: @collection.errors, status: :unprocessable_entity
+      render json: collection.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /collections/1
   def destroy
-    @collection.destroy!
+    collection.destroy!
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_collection
-      @collection = Collection.find(params.expect(:id))
+    def collection
+      @collection ||= Collection.find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.

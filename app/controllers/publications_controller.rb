@@ -10,7 +10,7 @@ class PublicationsController < ApplicationController
 
   # GET /publications/1
   def show
-    render json: @publication
+    render json: publication
   end
 
   # POST /publications
@@ -18,30 +18,29 @@ class PublicationsController < ApplicationController
     @publication = Publication.new(publication_params)
 
     if @publication.save
-      render json: @publication, status: :created, location: @publication
+      render json: publication, status: :created, location: @publication
     else
-      render json: @publication.errors, status: :unprocessable_entity
+      render json: publication.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /publications/1
   def update
-    if @publication.update(publication_params)
-      render json: @publication
+    if publication.update(publication_params)
+      render json: publication
     else
-      render json: @publication.errors, status: :unprocessable_entity
+      render json: publication.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /publications/1
   def destroy
-    @publication.destroy!
+    publication.destroy!
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_publication
-      @publication = Publication.find(params.expect(:id))
+    def publication
+      @publication ||= Publication.find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.
