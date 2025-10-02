@@ -67,37 +67,52 @@ jobs:
           ruby-version: "3.2.2" # Match your project's Ruby version
           bundler-cache: true
 
-      # Configure Database
-      - name: Configure PostgreSQL
+      # Configure Database Connection
+      - name: Configure database
         env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
           POSTGRES_DB: cbdb_test
-          POSTGRES_USER: testuser
-          POSTGRES_PASSWORD: testpassword
         run: |
-          sudo apt-get install -y postgresql-client
-          psql -c 'create database cbdb_test;' -U testuser -h localhost
+          # Verify PostgreSQL is running
+          pg_isready -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER
+
+      # Update Database Configuration
+      - name: Update database.yml
+        run: |
+          sed -i 's/username: cbdb/username: postgres/g' config/database.yml
+          sed -i 's/password: <%= ENV$$"POSTGRES_PASSWORD"$$ %>/password: postgres/g' config/database.yml
+          cat config/database.yml
 
       # Install Dependencies
       - name: Install dependencies
         run: |
           gem install bundler
           bundle install
-          yarn install
+          yarn install --check-files
 
-      # Database Preparation
+      # Prepare Database
       - name: Prepare database
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/cbdb_test
+          POSTGRES_HOST: localhost
+          POSTGRES_DB: cbdb_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         run: |
           bundle exec rails db:create
+          bundle exec rails db:schema:load
           bundle exec rails db:migrate
-          bundle exec rails db:seed
 
       # Run Tests
       - name: Run tests
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/cbdb_test
+          POSTGRES_HOST: localhost
+          POSTGRES_DB: cbdb_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         run: |
           bundle exec rspec
