@@ -83,6 +83,10 @@ GEM
       racc
     builder (3.3.0)
     coderay (1.1.3)
+    colorize (1.1.0)
+    colorize_logs (0.1.0)
+      activesupport
+      colorize
     concurrent-ruby (1.3.5)
     connection_pool (2.5.4)
     crass (1.0.6)
@@ -125,6 +129,34 @@ GEM
     diff-lcs (1.6.2)
     dotenv (3.1.8)
     drb (2.2.3)
+    dry-auto_inject (1.1.0)
+      dry-core (~> 1.1)
+      zeitwerk (~> 2.6)
+    dry-cli (1.3.0)
+    dry-configurable (1.3.0)
+      dry-core (~> 1.1)
+      zeitwerk (~> 2.6)
+    dry-core (1.1.0)
+      concurrent-ruby (~> 1.0)
+      logger
+      zeitwerk (~> 2.6)
+    dry-events (1.1.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.1)
+    dry-files (1.1.0)
+    dry-inflector (1.2.0)
+    dry-logger (1.1.0)
+    dry-monitor (1.0.1)
+      dry-configurable (~> 1.0, < 2)
+      dry-core (~> 1.0, < 2)
+      dry-events (~> 1.0, < 2)
+    dry-system (1.2.4)
+      dry-auto_inject (~> 1.1)
+      dry-configurable (~> 1.3)
+      dry-core (~> 1.1)
+      dry-inflector (~> 1.1)
+    dry-transformer (1.0.1)
+      zeitwerk (~> 2.6)
     easy_talk_two (1.1.2)
       activemodel (>= 7.0)
       activesupport (>= 7.0)
@@ -153,6 +185,29 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    hanami (2.2.1)
+      bundler (>= 1.16, < 3)
+      dry-configurable (~> 1.0, >= 1.2.0, < 2)
+      dry-core (~> 1.0, < 2)
+      dry-inflector (~> 1.0, >= 1.1.0, < 2)
+      dry-logger (~> 1.0, < 2)
+      dry-monitor (~> 1.0, >= 1.0.1, < 2)
+      dry-system (~> 1.1)
+      hanami-cli (~> 2.2.1)
+      hanami-utils (~> 2.2)
+      json (>= 2.7.2)
+      zeitwerk (~> 2.6)
+    hanami-cli (2.2.1)
+      bundler (~> 2.1)
+      dry-cli (~> 1.0, >= 1.1.0)
+      dry-files (~> 1.0, >= 1.0.2, < 2)
+      dry-inflector (~> 1.0, < 2)
+      rake (~> 13.0)
+      zeitwerk (~> 2.6)
+    hanami-utils (2.2.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0, < 2)
+      dry-transformer (~> 1.0, < 2)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     image_processing (1.14.0)
@@ -302,6 +357,8 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.3.0)
+    rbnacl (7.1.2)
+      ffi (~> 1)
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
@@ -436,12 +493,15 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   brakeman
+  colorize (~> 1.1)
+  colorize_logs (~> 0.1.0)
   cucumber
   database_cleaner
   debug
   factory_bot
   factory_bot_rails
   faker
+  hanami
   image_processing (~> 1.2)
   kamal
   oas_rails
@@ -451,6 +511,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rack-cors
   rails (~> 8.0.2, >= 8.0.2.1)
+  rbnacl (~> 7.1.2)
   rspec
   rspec-rails
   rubocop-rails-omakase

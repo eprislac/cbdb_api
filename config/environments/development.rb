@@ -69,6 +69,8 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
   config.hosts << "cbdb.mine"
   config.hosts << "pro.local"
+  config.hosts << "api"
   config.hosts << "/.*\.cbdb\.mine/"
   config.hosts << "/.*\.pro\.local/"
+  config.hosts << "/.*\.api/"
 end

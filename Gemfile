@@ -35,6 +35,7 @@ gem "image_processing", "~> 1.2"
 gem "oas_rails"
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
 gem "rack-cors"
+gem "rbnacl", "~>7.1.2"
 gem "yard"
 
 group :development, :test do
@@ -43,6 +44,7 @@ group :development, :test do
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
+  gem "hanami"
   gem "rspec"
   gem "rspec-rails"
   gem "selenium-webdriver"
@@ -56,3 +58,7 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 end
+
+gem "colorize", "~> 1.1"
+
+gem "colorize_logs", "~> 0.1.0"
