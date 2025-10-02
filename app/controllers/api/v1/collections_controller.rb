@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class CollectionsController < ApplicationController
+    class CollectionsController < ApiController
       # GET /collections
       def index
         @collections = Collection.all
@@ -57,6 +57,10 @@ module Api
 
       def user # helper method to fetch user by decrypted user_id
         @user ||= User.find_by_email(decrypt(email))
+      end
+
+      def user_id
+        user.id
       end
 
       def relation
