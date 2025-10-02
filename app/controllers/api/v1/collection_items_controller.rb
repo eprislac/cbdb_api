@@ -78,7 +78,7 @@ module Api
             creator_id by_line_id condition_id publisher_id notes
             price_paid issue_number volume_number year month
           ]
-        ).require(:collection_item).permit!
+        )
       end
 
       def email
