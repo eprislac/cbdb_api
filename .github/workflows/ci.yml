@@ -81,8 +81,8 @@ jobs:
 
       - name: Verify PostgreSQL Connection
         run: |
-          # Explicitly check TCP connection
-          psql -h localhost -p 5432 -U postgres -d postgres -c "SELECT 1" || exit 1
+          # Explicitly provide password for connection
+          PGPASSWORD=$POSTGRES_PASSWORD psql -h localhost -p 5432 -U postgres -d postgres -c "SELECT 1" || exit 1
 
       # Update Database Configuration
       - name: Prepare database configuration
