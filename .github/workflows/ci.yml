@@ -79,12 +79,32 @@ jobs:
           # Verify PostgreSQL is running
           pg_isready -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER
 
-      # Update Database Configuration
-      - name: Update database.yml
+      - name: Verify PostgreSQL Connection
         run: |
-          sed -i 's/username: cbdb/username: postgres/g' config/database.yml
-          sed -i 's/password: <%= ENV$$"POSTGRES_PASSWORD"$$ %>/password: postgres/g' config/database.yml
-          cat config/database.yml
+          # Explicitly check TCP connection
+          psql -h localhost -p 5432 -U postgres -d postgres -c "SELECT 1" || exit 1
+
+      # Update Database Configuration
+      - name: Prepare database configuration
+        run: |
+          # Explicitly set host to localhost and use TCP connection
+          sed -i 's/host: .*/host: localhost/g' config/database.yml
+          sed -i 's/adapter: postgresql/adapter: postgresql\n  host: localhost/g' config/database.yml
+          
+          # Ensure test database configuration is correct
+          cat > config/database.yml << EOF
+          test:
+            adapter: postgresql
+            encoding: unicode
+            database: cbdb_test
+            username: postgres
+            password: postgres
+            host: localhost
+            port: 5432
+            pool: 5
+          EOF
+
+        cat config/database.yml
 
       # Install Dependencies
       - name: Install dependencies
