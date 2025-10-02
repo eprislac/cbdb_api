@@ -43,69 +43,41 @@ jobs:
 
     # PostgreSQL Service Container
     services:
+      # Label used to access the service container
       postgres:
-        image: postgres:15-alpine
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
         env:
-          POSTGRES_DB: cbdb_test
-          POSTGRES_USER: testuser
-          POSTGRES_PASSWORD: testpassword
-        ports:
-          - 5432:5432
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
 
+        steps:
+          # Downloads a copy of the code in your repository before running CI tests
+          - name: Check out repository code
+            uses: actions/checkout@v5
+
+          # Performs a clean installation of all dependencies in the `package.json` file
+          # For more information, see https://docs.npmjs.com/cli/ci.html
+          - name: Install dependencies
+            run: npm ci
+
+          - name: Connect to PostgreSQL
+            # Runs a script that creates a PostgreSQL table, populates
+            # the table with data, and then retrieves the data.
+            run: node client.js
+            # Environment variables used by the `client.js` script to create a new PostgreSQL table.
+            env:
+              # The hostname used to communicate with the PostgreSQL service container
+              POSTGRES_HOST: postgres
+              # The default PostgreSQL port
+              POSTGRES_PORT: 5432
     steps:
-      - uses: actions/checkout@v4
-
-      # Setup Ruby
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "3.2.2" # Match your project's Ruby version
-          bundler-cache: true
-
-      # Configure Database Connection
-      - name: Configure database
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: cbdb_test
-        run: |
-          # Verify PostgreSQL is running
-          pg_isready -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER
-
-      - name: Verify PostgreSQL Connection
-        run: |
-          # Explicitly provide password for connection
-          PGPASSWORD=$POSTGRES_PASSWORD psql -h localhost -p 5432 -U postgres -d postgres -c "SELECT 1" || exit 1
-
-      # Update Database Configuration
-      - name: Prepare database configuration
-        run: |
-          # Explicitly set host to localhost and use TCP connection
-          sed -i 's/host: .*/host: localhost/g' config/database.yml
-          sed -i 's/adapter: postgresql/adapter: postgresql\n  host: localhost/g' config/database.yml
-
-          # Ensure test database configuration is correct
-          cat > config/database.yml << EOF
-          test:
-            adapter: postgresql
-            encoding: unicode
-            database: cbdb_test
-            username: postgres
-            password: postgres
-            host: localhost
-            port: 5432
-            pool: 5
-          EOF
-
-          cat config/database.yml
-
       # Install Dependencies
       - name: Install dependencies
         run: |
