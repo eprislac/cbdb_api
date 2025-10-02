@@ -30,7 +30,12 @@ namespace :api do
       to: "collection_items#create",
       as: :create_collection_item
     put "/:email/collection/:collection_id/items/:id",
-      to: "collection_items#update",    
+      to: "collection_items#update",
+      as: :update_collection_item
+    delete "/:email/collection/:collection_id/items/:id",
+      to: "collection_items#destroy",
+      as: :delete_collection_item
+
     resources :publishers
     resources :publications
     resources :publication_types
@@ -38,6 +43,5 @@ namespace :api do
     resources :by_lines
     resources :conditions
     resources :issues
-
   end
 end
