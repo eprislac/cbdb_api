@@ -40,27 +40,64 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    # services:
-    #  redis:
-    #    image: redis
-    #    ports:
-    #      - 6379:6379
-    #    options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
-    steps:
-      - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config
-
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      - name: Run tests
+    # PostgreSQL Service Container
+    services:
+      postgres:
+        image: postgres:15-alpine
         env:
-          RAILS_ENV: test
-          # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare test
+          POSTGRES_DB: cbdb_test
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpassword
+        ports:
+          - 5432:5432
+        # Health check to ensure database is ready
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Setup Language/Runtime
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      # Dependency Management
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov psycopg2-binary
+
+      # Database Migration Preparation
+      - name: Install Database Migration Tools
+        run: |
+          pip install alembic
+          # If using a different migration tool, adjust accordingly
+
+      # Database Migration
+      - name: Run Database Migrations
+        env:
+          DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/cbdb_test
+        run: |
+          # Assuming Alembic is used for migrations
+          alembic upgrade head
+
+          # Alternative if using custom migration script
+          # python db_migrate.py
+
+      # Run Tests with Coverage
+      - name: Run Tests
+        env:
+          # Database connection parameters
+          TEST_DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/cbdb_test
+          # Add other necessary environment variables
+        run: |
+          pytest tests/ \
+            --cov=. \
+            --cov-report=xml \
+            --cov-report=term-missingtest:prepare test
