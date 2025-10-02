@@ -90,7 +90,7 @@ jobs:
           # Explicitly set host to localhost and use TCP connection
           sed -i 's/host: .*/host: localhost/g' config/database.yml
           sed -i 's/adapter: postgresql/adapter: postgresql\n  host: localhost/g' config/database.yml
-          
+
           # Ensure test database configuration is correct
           cat > config/database.yml << EOF
           test:
@@ -104,7 +104,7 @@ jobs:
             pool: 5
           EOF
 
-        cat config/database.yml
+          cat config/database.yml
 
       # Install Dependencies
       - name: Install dependencies
