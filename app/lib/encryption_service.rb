@@ -17,7 +17,7 @@ class EncryptionService
     decrypted_message = box.decrypt(nonce, cipherText) # Decrypt the message
 
     decrypted_message ? decrypted_message : nil # Return decrypted message or nil if failed
-  rescue RbNaCl::CryptoError
+  rescue RbNaCl::CryptoError, RbNaCl::LengthError
     nil # Return nil if decryption fails
   end
 end
