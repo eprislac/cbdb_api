@@ -18,13 +18,13 @@ RSpec.describe "api/v1/by_lines", type: :request do
   # adjust the attributes here as well.
   let(:valid_attributes) {
     {
-      creator_id: 1, _id: 1, credit_id: 1, issue_id: 1
+      name: 'Writer'
     }
   }
 
   let(:invalid_attributes) {
     {
-      creator_id: nil, _id: 1, credit_id: nil, issue_id: nil
+      name: nil
     }
   }
 

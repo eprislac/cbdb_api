@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Api::V1::ByLinesController, type: :routing do
   describe "routing" do
     it "routes to #index" do
-      expect(api_v1_by_lines).to route_to(controller: "api/v1/by_lines", action: "index")
+      expect(api_v1_by_lines_path).to route_to(controller: "api/v1/by_lines", action: "index")
     end
 
     it "routes to #show" do
