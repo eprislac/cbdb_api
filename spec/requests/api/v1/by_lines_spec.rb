@@ -18,7 +18,7 @@ RSpec.describe "api/v1/by_lines", type: :request do
   # adjust the attributes here as well.
   let(:valid_attributes) { { name: 'Writer' } }
 
-  let(:invalid_attributes) { }
+  let(:invalid_attributes) { { last_name: 'Writer' }  }
 
 
   # This should return the minimal set of values that should be in the headers
@@ -26,7 +26,7 @@ RSpec.describe "api/v1/by_lines", type: :request do
   # ByLinesController, or in your router and rack
   # middleware. Be sure to keep this updated too.
   let(:valid_headers) {
-    {}
+    { "ACCEPT" => "application/json" }
   }
 
   describe "GET /index" do
