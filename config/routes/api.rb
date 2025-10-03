@@ -43,5 +43,6 @@ namespace :api do
     resources :by_lines
     resources :conditions
     resources :issues
+    resources :covers
   end
 end

@@ -23,7 +23,7 @@ RSpec.describe EncryptionService do
     end
 
     it 'returns nil for invalid encrypted text' do
-      invalid_encrypted_text = "invalid_nonce: invalid_ciphertext"
+      invalid_encrypted_text = "#{Base64.encode('invalid_nonce')}:#{Base64.encode('invalid_ciphertext')}"
       decrypted_text = EncryptionService.decrypt(invalid_encrypted_text)
       expect(decrypted_text).to be_nil # Expect nil for invalid input
     end
