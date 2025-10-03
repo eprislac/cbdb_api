@@ -12,22 +12,27 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/copies", type: :request do
+RSpec.describe "/:email/collection/:collection_id/items", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Copy. As you add validations to Copy, be sure to
   # adjust the attributes here as well.
-  let(:condition) { Condition.create!(name: "Near Mint") }
-  let(:publication_type) { PublicationType.create!(name: "Comic Book") }
-  let(:publisher) { Publisher.create!(name: "Marvel Comics") }
-  let(:publication) { Publication.create!(title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
-  let(:issue) { Issue.create!(number: 1, publication_id: publication.id) }
+  let(:condition) { create!(:condition, name: "Near Mint") }
+  let(:collection) { create!(:collection, name: "Near Mint") }
+  let(:publication_type) { create!(:publication_type, name: "Comic Book") }
+  let(:publisher) { create!(:publisher, name: "Marvel Comics") }
+  let(:publication) { create!(:publication, title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
+  let(:issue) { create!(:issue, number: 1, publication_id: publication.id) }
 
   let(:valid_attributes) {
-    { issue_id: issue.id, condition_id: condition.id, notes: "First appearance" }
+    {
+      issue_id: issue.id,
+      collection_id: collection.id,
+      condition_id: condition.id,
+      notes: "Creased cover, spine bends, white pages" }
   }
 
   let(:invalid_attributes) {
-    { issue_id: nil, condition_id: nil }
+  { issue_id: nil, collection_id: nil, condition_id: nil }
   }
 
   # This should return the minimal set of values that should be in the headers

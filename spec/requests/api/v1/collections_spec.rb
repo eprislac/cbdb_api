@@ -45,7 +45,7 @@ RSpec.describe "/collections", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       collection = Collection.create! valid_attributes
-      get api_v1_collection_url(collection), as: :json
+      get api_v1_user_collection_url(collection), as: :json
       expect(response).to be_successful
     end
   end
@@ -54,13 +54,13 @@ RSpec.describe "/collections", type: :request do
     context "with valid parameters" do
       it "creates a new Collection" do
         expect {
-          post api_v1_collections_url,
+          post api_v1_user_collection_url,
                params: { collection: valid_attributes }, headers: valid_headers, as: :json
         }.to change(Collection, :count).by(1)
       end
 
       it "renders a JSON response with the new collection" do
-        post api_v1_collections_url,
+        post api_v1_user_collection_url,
              params: { collection: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -70,13 +70,13 @@ RSpec.describe "/collections", type: :request do
     context "with invalid parameters" do
       it "does not create a new Collection" do
         expect {
-          post api_v1_collections_url,
+          post api_v1_user_collection_url,
                params: { collection: invalid_attributes }, as: :json
         }.to change(Collection, :count).by(0)
       end
 
       it "renders a JSON response with errors for the new collection" do
-        post api_v1_collections_url,
+        post api_v1_user_collection_url,
              params: { collection: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -93,7 +93,7 @@ RSpec.describe "/collections", type: :request do
 
       it "updates the requested collection" do
         collection = Collection.create! valid_attributes
-        patch api_v1_collection_url(collection),
+        patch api_v1_user_collection_url(collection),
               params: { collection: new_attributes }, headers: valid_headers, as: :json
         collection.reload
         expect(collection.user_id).to eq(new_user.id)
@@ -101,7 +101,7 @@ RSpec.describe "/collections", type: :request do
 
       it "renders a JSON response with the collection" do
         collection = Collection.create! valid_attributes
-        patch api_v1_collection_url(collection),
+        patch api_v1_user_collection_url(collection),
               params: { collection: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -111,7 +111,7 @@ RSpec.describe "/collections", type: :request do
     context "with invalid parameters" do
       it "renders a JSON response with errors for the collection" do
         collection = Collection.create! valid_attributes
-        patch api_v1_collection_url(collection),
+        patch api_v1_user_collection_url(collection),
               params: { collection: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -123,7 +123,7 @@ RSpec.describe "/collections", type: :request do
     it "destroys the requested collection" do
       collection = Collection.create! valid_attributes
       expect {
-        delete api_v1_collection_url(collection), headers: valid_headers, as: :json
+        delete api_v1_user_collection_url(collection), headers: valid_headers, as: :json
       }.to change(Collection, :count).by(-1)
     end
   end
