@@ -41,7 +41,7 @@ RSpec.describe "/copies", type: :request do
   describe "GET /index" do
     it "renders a successful response" do
       Copy.create! valid_attributes
-      get copies_url, headers: valid_headers, as: :json
+      get api_v1_collection_items_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end
   end
@@ -49,7 +49,7 @@ RSpec.describe "/copies", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       copy = Copy.create! valid_attributes
-      get copy_url(copy), as: :json
+      get api_v1_collection_items_url(copy), as: :json
       expect(response).to be_successful
     end
   end
@@ -58,13 +58,13 @@ RSpec.describe "/copies", type: :request do
     context "with valid parameters" do
       it "creates a new Copy" do
         expect {
-          post copies_url,
+          post api_v1_collection_items_url,
                params: { copy: valid_attributes }, headers: valid_headers, as: :json
         }.to change(Copy, :count).by(1)
       end
 
       it "renders a JSON response with the new copy" do
-        post copies_url,
+        post api_v1_collection_items_url,
              params: { copy: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -74,13 +74,13 @@ RSpec.describe "/copies", type: :request do
     context "with invalid parameters" do
       it "does not create a new Copy" do
         expect {
-          post copies_url,
+          post api_v1_collection_items_url,
                params: { copy: invalid_attributes }, as: :json
         }.to change(Copy, :count).by(0)
       end
 
       it "renders a JSON response with errors for the new copy" do
-        post copies_url,
+        post api_v1_collection_items_url,
              params: { copy: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -97,7 +97,7 @@ RSpec.describe "/copies", type: :request do
 
       it "updates the requested copy" do
         copy = Copy.create! valid_attributes
-        patch copy_url(copy),
+        patch api_v1_collection_items_url(copy),
               params: { copy: new_attributes }, headers: valid_headers, as: :json
         copy.reload
         expect(copy.condition_id).to eq(new_condition.id)
@@ -106,7 +106,7 @@ RSpec.describe "/copies", type: :request do
 
       it "renders a JSON response with the copy" do
         copy = Copy.create! valid_attributes
-        patch copy_url(copy),
+        patch api_v1_collection_items_url(copy),
               params: { copy: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -116,7 +116,7 @@ RSpec.describe "/copies", type: :request do
     context "with invalid parameters" do
       it "renders a JSON response with errors for the copy" do
         copy = Copy.create! valid_attributes
-        patch copy_url(copy),
+        patch api_v1_collection_items_url(copy),
               params: { copy: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -128,7 +128,7 @@ RSpec.describe "/copies", type: :request do
     it "destroys the requested copy" do
       copy = Copy.create! valid_attributes
       expect {
-        delete copy_url(copy), headers: valid_headers, as: :json
+        delete api_v1_collection_items_urll(copy), headers: valid_headers, as: :json
       }.to change(Copy, :count).by(-1)
     end
   end

@@ -10,7 +10,7 @@ RSpec.describe "API V1 Collection Items Routes", type: :routing do
 
   describe "GET routes" do
     it "routes to index action" do
-      expect(get: "/api/v1/#{email}/collection/#{collection_id}/items").to route_to(
+      expect(get: "/api/v1/#{email}/collections/#{collection_id}/items").to route_to(
         controller: "api/v1/collection_items",
         action: "index",
         email: email,
@@ -20,7 +20,7 @@ RSpec.describe "API V1 Collection Items Routes", type: :routing do
     end
 
     it "routes to show action" do
-      expect(get: "/api/v1/#{email}/collection/#{collection_id}/items/#{item_id}")
+      expect(get: "/api/v1/#{email}/collections/#{collection_id}/items/#{item_id}")
         .to route_to(
           controller: "api/v1/collection_items",
           action: "show",
@@ -34,7 +34,7 @@ RSpec.describe "API V1 Collection Items Routes", type: :routing do
 
   describe "POST route" do
     it "routes to create action" do
-      expect(post: "/api/v1/#{email}/collection/#{collection_id}/items")
+      expect(post: "/api/v1/#{email}/collections/#{collection_id}/items")
         .to route_to(
           controller: "api/v1/collection_items",
           action: "create",
@@ -47,7 +47,7 @@ RSpec.describe "API V1 Collection Items Routes", type: :routing do
 
   describe "PUT route" do
     it "routes to update action" do
-      expect(put: "/api/v1/#{email}/collection/#{collection_id}/items/#{item_id}")
+      expect(put: "/api/v1/#{email}/collections/#{collection_id}/items/#{item_id}")
         .to route_to(
           controller: "api/v1/collection_items",
           action: "update",
@@ -61,7 +61,7 @@ RSpec.describe "API V1 Collection Items Routes", type: :routing do
 
   describe "DELETE route" do
     it "routes to destroy action" do
-      expect(delete: "/api/v1/#{email}/collection/#{collection_id}/items/#{item_id}")
+      expect(delete: "/api/v1/#{email}/collections/#{collection_id}/items/#{item_id}")
         .to route_to(
           controller: "api/v1/collection_items",
           action: "destroy",

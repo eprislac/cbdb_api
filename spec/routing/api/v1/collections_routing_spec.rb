@@ -35,17 +35,6 @@ RSpec.describe Api::V1::CollectionsController, type: :routing do
     end
 
     it "routes to #update via PUT" do
-      expect(patch: api_v1_update_user_collection_path(email: 'thing@ma.bob', id: '1'))
-        .to route_to(
-          controller: "api/v1/collections",
-          action: "update",
-          email: 'thing@ma.bob',
-          id: '1',
-          format: "json"
-        )
-    end
-
-    it "routes to #update via PATCH" do
       expect(put: api_v1_update_user_collection_path(email: 'thing@ma.bob', id: '1'))
         .to route_to(
           controller: "api/v1/collections",
