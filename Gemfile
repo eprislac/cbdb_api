@@ -44,7 +44,7 @@ group :development, :test do
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
-  gem "hanami"
+  # gem "hanami"
   gem "rspec"
   gem "rspec-rails"
   gem "selenium-webdriver"
