@@ -16,9 +16,9 @@ RSpec.describe "/issues", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Issue. As you add validations to Issue, be sure to
   # adjust the attributes here as well.
-  let(:publication_type) { PublicationType.create!(name: "Comic Book") }
-  let(:publisher) { Publisher.create!(name: "Marvel Comics") }
-  let(:publication) { Publication.create!(title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
+  let(:publication_type) { create!(publication_type, name: "Comic Book") }
+  let(:publisher) { create!(:publisher, name: "Marvel Comics") }
+  let(:publication) { create!(:publication, title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
 
   let(:valid_attributes) {
     { number: 1, publication_id: publication.id }

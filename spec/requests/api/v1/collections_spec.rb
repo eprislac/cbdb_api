@@ -16,7 +16,7 @@ RSpec.describe "/collections", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Collection. As you add validations to Collection, be sure to
   # adjust the attributes here as well.
-  let(:user) { User.create!(name: "John Doe", email: "john@example.com") }
+  let(:user) { create!(:user, name: "John Doe", email: "john@example.com") }
 
   let(:valid_attributes) {
     { user_id: user.id }

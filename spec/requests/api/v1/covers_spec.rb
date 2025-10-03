@@ -16,10 +16,10 @@ RSpec.describe "/covers", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Cover. As you add validations to Cover, be sure to
   # adjust the attributes here as well.
-  let(:publication_type) { PublicationType.create!(name: "Comic Book") }
-  let(:publisher) { Publisher.create!(name: "Marvel Comics") }
-  let(:publication) { Publication.create!(title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
-  let(:issue) { Issue.create!(number: 1, publication_id: publication.id) }
+  let(:publication_type) { create!(:publication_type, name: "Comic Book") }
+  let(:publisher) { create!(:publisher, name: "Marvel Comics") }
+  let(:publication) { create!(:publication, title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
+  let(:issue) { Issue.create!(:issue, number: 1, publication_id: publication.id) }
 
   let(:valid_attributes) {
     { variant: "Regular", issue_id: issue.id }
