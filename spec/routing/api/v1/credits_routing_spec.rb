@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CreditsController, type: :routing do
+RSpec.describe Api::V1::CreditsController, type: :routing do
   describe "routing" do
     it "routes to #index" do
       expect(get: "/credits").to route_to("credits#index")

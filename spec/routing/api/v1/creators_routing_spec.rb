@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CreatorsController, type: :routing do
+RSpec.describe Api::V1::CreatorsController, type: :routing do
   describe "routing" do
     it "routes to #index" do
       expect(get: "/creators").to route_to("creators#index")

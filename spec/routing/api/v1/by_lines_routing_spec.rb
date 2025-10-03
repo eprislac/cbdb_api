@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ByLinesController, type: :routing do
+RSpec.describe Api::V1::ByLinesController, type: :routing do
   describe "routing" do
     it "routes to #index" do
       expect(get: "/by_lines").to route_to("by_lines#index")

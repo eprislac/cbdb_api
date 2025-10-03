@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CopiesController, type: :routing do
+RSpec.describe Api::V1::CopiesController, type: :routing do
   describe "routing" do
     it "routes to #index" do
       expect(get: "/copies").to route_to("copies#index")
