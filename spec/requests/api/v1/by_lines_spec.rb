@@ -12,17 +12,26 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/by_lines", type: :request do
+RSpec.describe "api/v1/by_lines", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # ByLine. As you add validations to ByLine, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      by_line: {
+        creator_id: 1, _id: 1, credit_id: 1, issue_id: 1
+      }
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      by_line: {
+        creator_id: nil, _id: 1, credit_id: nil, issue_id: nil
+      }
+    }
   }
+
 
   # This should return the minimal set of values that should be in the headers
   # in order to pass any filters (e.g. authentication) defined in
@@ -35,7 +44,7 @@ RSpec.describe "/by_lines", type: :request do
   describe "GET /index" do
     it "renders a successful response" do
       ByLine.create! valid_attributes
-      get by_lines_url, headers: valid_headers, as: :json
+      get api_v1_by_lines_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end
   end
@@ -43,7 +52,7 @@ RSpec.describe "/by_lines", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       by_line = ByLine.create! valid_attributes
-      get by_line_url(by_line), as: :json
+      get api_v1_by_line_url(by_line), as: :json
       expect(response).to be_successful
     end
   end
@@ -52,13 +61,13 @@ RSpec.describe "/by_lines", type: :request do
     context "with valid parameters" do
       it "creates a new ByLine" do
         expect {
-          post by_lines_url,
+          post api_v1_by_lines_url,
                params: { by_line: valid_attributes }, headers: valid_headers, as: :json
         }.to change(ByLine, :count).by(1)
       end
 
       it "renders a JSON response with the new by_line" do
-        post by_lines_url,
+        post api_v1_by_lines_url,
              params: { by_line: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -68,7 +77,7 @@ RSpec.describe "/by_lines", type: :request do
     context "with invalid parameters" do
       it "does not create a new ByLine" do
         expect {
-          post by_lines_url,
+          post api_v1_by_lines_url,
                params: { by_line: invalid_attributes }, as: :json
         }.to change(ByLine, :count).by(0)
       end
