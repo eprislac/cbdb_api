@@ -15,17 +15,17 @@ RSpec.describe Api::V1::ByLinesController, type: :routing do
 
     it "routes to #create" do
       expect(post: "/api/v1/by_lines/", params: { name: 'Writer' }, format: 'json')
-        .to route_to(controller: "api/v1/by_lines", action: "create", name: 'Writer', format: 'json')
+        .to route_to(controller: "api/v1/by_lines", action: "create", format: 'json')
     end
 
     it "routes to #update via PUT" do
       expect(put: "/api/v1/by_lines/1")
-        .to route_to(controller: "api/v1/by_lines", format: 'json', action: "update", id: "1", by_line: { name: 'Writer' })
+        .to route_to(controller: "api/v1/by_lines", format: 'json', action: "update", id: "1")
     end
 
     it "routes to #update via PATCH" do
       expect(patch: "/api/v1/by_lines/1")
-        .to route_to(controller: "api/v1/by_lines", action: "update", id: "1", by_line: { name: 'Writer' }, format: "json")
+        .to route_to(controller: "api/v1/by_lines", action: "update", id: "1", format: "json")
     end
 
     it "routes to #destroy" do
