@@ -64,7 +64,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          gem install bundler
           bundle install
 
       # Prepare Database
