@@ -16,17 +16,9 @@ RSpec.describe "api/v1/by_lines", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # ByLine. As you add validations to ByLine, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    {
-      name: 'Writer'
-    }
-  }
+  let(:valid_attributes) { :name }
 
-  let(:invalid_attributes) {
-    {
-      name: nil
-    }
-  }
+  let(:invalid_attributes) { }
 
 
   # This should return the minimal set of values that should be in the headers
