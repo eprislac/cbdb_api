@@ -8,7 +8,7 @@ RSpec.describe Api::V1::CollectionsController, type: :routing do
           controller: "api/v1/collections",
           action: "index",
           email: 'thing@ma.bob',
-          format: :json
+          format: "json"
         )
     end
 
@@ -19,7 +19,7 @@ RSpec.describe Api::V1::CollectionsController, type: :routing do
           action: "show",
           email: 'thing@ma.bob',
           id: '1',
-          format: :json
+          format: "json"
         )
     end
 
@@ -30,7 +30,7 @@ RSpec.describe Api::V1::CollectionsController, type: :routing do
           controller: "api/v1/collections",
           action: "create",
           email: 'thing@ma.bob',
-          format: :json
+          format: "json"
         )
     end
 
@@ -41,7 +41,7 @@ RSpec.describe Api::V1::CollectionsController, type: :routing do
           action: "update",
           email: 'thing@ma.bob',
           id: '1',
-          format: :json
+          format: "json"
         )
     end
 
@@ -52,7 +52,7 @@ RSpec.describe Api::V1::CollectionsController, type: :routing do
           action: "update",
           email: 'thing@ma.bob',
           id: '1',
-          format: :json
+          format: "json"
         )
     end
 
@@ -63,7 +63,7 @@ RSpec.describe Api::V1::CollectionsController, type: :routing do
           action: "destroy",
           email: 'thing@ma.bob',
           id: '1',
-          format: :json
+          format: "json"
         )
     end
   end
