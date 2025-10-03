@@ -105,7 +105,7 @@ RSpec.describe "api/v1/by_lines", type: :request do
     context "with invalid parameters" do
       it "renders a JSON response with errors for the by_line" do
         by_line = ByLine.create! valid_attributes
-        patch by_line_url(by_line),
+        patch api_v1_by_line_url(by_line),
               params: { by_line: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to match(a_string_including("application/json"))
