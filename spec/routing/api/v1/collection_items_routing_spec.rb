@@ -1,36 +1,66 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::CollectionItemsController, type: :routing do
-  describe "routing" do
-    it "routes to #index" do
-      expect(get api_v1_collection_items_path(collection_id: '1', email: 'thing@ma.bob'))
-        .to route_to(controller: "api/v1/collection_item_items", action: "index", collection_id: '1', email: 'thing@ma.bob')
+
+require 'rails_helper'
+
+RSpec.describe "API V1 Collection Items Routes", type: :routing do
+  let(:email) { "user@example.com" }
+  let(:collection_id) { "123" }
+  let(:item_id) { "456" }
+
+  describe "GET routes" do
+    it "routes to index action" do
+      expect(get: "/api/v1/#{email}/collection/#{collection_id}/items").to route_to(
+        controller: "api/v1/collection_items",
+        action: "index",
+        email: email,
+        collection_id: collection_id
+      )
     end
 
-    it "routes to #show" do
-      expect(get api_v1_collection_item_path(collection_id: '1', id: '1', email: 'thing@ma.bob'))
-        .to route_to(controller: "api/v1/collection_items", action: "show", id: '1', collection_id: '1', email: 'thing@ma.bob')
+    it "routes to show action" do
+      expect(get: "/api/v1/#{email}/collection/#{collection_id}/items/#{item_id}").to route_to(
+        controller: "api/v1/collection_items",
+        action: "show",
+        email: email,
+        collection_id: collection_id,
+        id: item_id
+      )
     end
+  end
 
-
-    it "routes to #create" do
-      expect(post api_v1_create_collection_item_path(collection_id: '1', email: 'thing@ma.bob'))
-        .to route_to(controller: "api/v1/collection_items", action: "create", collection_id: '1', email: 'thing@ma.bob')
+  describe "POST route" do
+    it "routes to create action" do
+      expect(post: "/api/v1/#{email}/collection/#{collection_id}/items").to route_to(
+        controller: "api/v1/collection_items",
+        action: "create",
+        email: email,
+        collection_id: collection_id
+      )
     end
+  end
 
-    it "routes to #update via PUT" do
-      expect(put api_v1_update_collection_item_path(id: '1', collection_id: '1', email: 'thing@ma.bob'))
-        .to route_to(controller: "api/v1/collection_items", action: "update", id: '1', collection_id: '1', email: 'thing@ma.bob')
+  describe "PUT route" do
+    it "routes to update action" do
+      expect(put: "/api/v1/#{email}/collection/#{collection_id}/items/#{item_id}").to route_to(
+        controller: "api/v1/collection_items",
+        action: "update",
+        email: email,
+        collection_id: collection_id,
+        id: item_id
+      )
     end
+  end
 
-    it "routes to #update via PATCH" do
-      expect(patch api_v1_update_collection_item_path(id: '1', collection_id: '1', email: 'thing@ma.bob'))
-        .to route_to(controller: "api/v1/collection_items", action: "update", id: '1', collection_id: '1', email: 'thing@ma.bob')
-    end
-
-    it "routes to #destroy" do
-      expect(delete api_v1_delete_collection_item_path(id: '1', collection_id: '1', email: 'thing@ma.bob'))
-        .to route_to(controller: "api/v1/collection_items", action: "destroy", id: '1', collection_id: '1', email: 'thing@ma.bob')
+  describe "DELETE route" do
+    it "routes to destroy action" do
+      expect(delete: "/api/v1/#{email}/collection/#{collection_id}/items/#{item_id}").to route_to(
+        controller: "api/v1/collection_items",
+        action: "destroy",
+        email: email,
+        collection_id: collection_id,
+        id: item_id
+      )
     end
   end
 end
