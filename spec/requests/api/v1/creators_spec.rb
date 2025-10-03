@@ -17,11 +17,11 @@ RSpec.describe "/creators", type: :request do
   # Creator. As you add validations to Creator, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    { name: "Stan Lee" }
+    { last_name: "Lee", first_name: 'Stan' }
   }
 
   let(:invalid_attributes) {
-    { name: "" }
+    { last_name: "", first_name: '' }
   }
 
   # This should return the minimal set of values that should be in the headers
