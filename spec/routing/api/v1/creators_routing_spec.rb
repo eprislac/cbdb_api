@@ -3,28 +3,28 @@ require "rails_helper"
 RSpec.describe Api::V1::CreatorsController, type: :routing do
   describe "routing" do
     it "routes to #index" do
-      expect(get: "/creators").to route_to("creators#index")
+      expect(get: "/api/v1/creators").to route_to("creators#index")
     end
 
     it "routes to #show" do
-      expect(get: "/creators/1").to route_to("creators#show", id: "1")
+      expect(get: "/api/v1/creators/1").to route_to("creators#show", id: "1")
     end
 
 
     it "routes to #create" do
-      expect(post: "/creators").to route_to("creators#create")
+      expect(post: "/api/v1/creators").to route_to("creators#create")
     end
 
     it "routes to #update via PUT" do
-      expect(put: "/creators/1").to route_to("creators#update", id: "1")
+      expect(put: "/api/v1/creators/1").to route_to("creators#update", id: "1")
     end
 
     it "routes to #update via PATCH" do
-      expect(patch: "/creators/1").to route_to("creators#update", id: "1")
+      expect(patch: "/api/v1/creators/1").to route_to("creators#update", id: "1")
     end
 
     it "routes to #destroy" do
-      expect(delete: "/creators/1").to route_to("creators#destroy", id: "1")
+      expect(delete: "/api/v1/creators/1").to route_to("creators#destroy", id: "1")
     end
   end
 end

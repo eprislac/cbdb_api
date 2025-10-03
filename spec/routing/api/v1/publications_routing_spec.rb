@@ -3,28 +3,28 @@ require "rails_helper"
 RSpec.describe Api::V1::PublicationsController, type: :routing do
   describe "routing" do
     it "routes to #index" do
-      expect(get: "/publications").to route_to("publications#index")
+      expect(get: "/api/v1/publications").to route_to("publications#index")
     end
 
     it "routes to #show" do
-      expect(get: "/publications/1").to route_to("publications#show", id: "1")
+      expect(get: "/api/v1/publications/1").to route_to("publications#show", id: "1")
     end
 
 
     it "routes to #create" do
-      expect(post: "/publications").to route_to("publications#create")
+      expect(post: "/api/v1/publications").to route_to("publications#create")
     end
 
     it "routes to #update via PUT" do
-      expect(put: "/publications/1").to route_to("publications#update", id: "1")
+      expect(put: "/api/v1/publications/1").to route_to("publications#update", id: "1")
     end
 
     it "routes to #update via PATCH" do
-      expect(patch: "/publications/1").to route_to("publications#update", id: "1")
+      expect(patch: "/api/v1/publications/1").to route_to("publications#update", id: "1")
     end
 
     it "routes to #destroy" do
-      expect(delete: "/publications/1").to route_to("publications#destroy", id: "1")
+      expect(delete: "/api/v1/publications/1").to route_to("publications#destroy", id: "1")
     end
   end
 end

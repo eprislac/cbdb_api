@@ -3,28 +3,28 @@ require "rails_helper"
 RSpec.describe Api::V1::CollectionsController, type: :routing do
   describe "routing" do
     it "routes to #index" do
-      expect(get: "/collections").to route_to("collections#index")
+      expect(get: "/api/v1/collections").to route_to("collections#index")
     end
 
     it "routes to #show" do
-      expect(get: "/collections/1").to route_to("collections#show", id: "1")
+      expect(get: "/api/v1/collections/1").to route_to("collections#show", id: "1")
     end
 
 
     it "routes to #create" do
-      expect(post: "/collections").to route_to("collections#create")
+      expect(post: "/api/v1/collections").to route_to("collections#create")
     end
 
     it "routes to #update via PUT" do
-      expect(put: "/collections/1").to route_to("collections#update", id: "1")
+      expect(put: "/api/v1/collections/1").to route_to("collections#update", id: "1")
     end
 
     it "routes to #update via PATCH" do
-      expect(patch: "/collections/1").to route_to("collections#update", id: "1")
+      expect(patch: "/api/v1/collections/1").to route_to("collections#update", id: "1")
     end
 
     it "routes to #destroy" do
-      expect(delete: "/collections/1").to route_to("collections#destroy", id: "1")
+      expect(delete: "/api/v1/collections/1").to route_to("collections#destroy", id: "1")
     end
   end
 end
