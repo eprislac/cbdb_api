@@ -8,8 +8,8 @@ RSpec.describe Api::V1::CollectionsController, type: :routing do
     end
 
     it "routes to #show" do
-      expect(get: api_v1_user_collection_path(email: 'thing@ma.bob', id: 1))
-        .to route_to("api/v1/collections#show", email: 'thing@ma.bob', id: "1")
+      expect(get: api_v1_user_collection_path(email: 'thing@ma.bob', id: '1'))
+        .to route_to("api/v1/collections#show", email: 'thing@ma.bob', id: '1')
     end
 
 
@@ -19,18 +19,18 @@ RSpec.describe Api::V1::CollectionsController, type: :routing do
     end
 
     it "routes to #update via PUT" do
-      expect(patch: api_v1_update_user_collection_path(email: 'thing@ma.bob', id: 1))
-        .to route_to("api/v1/collections#update", email: 'thing@ma.bob', id: "1")
+      expect(patch: api_v1_update_user_collection_path(email: 'thing@ma.bob', id: '1'))
+        .to route_to("api/v1/collections#update", email: 'thing@ma.bob', id: '1')
     end
 
     it "routes to #update via PATCH" do
-      expect(put: api_v1_update_user_collection_path(email: 'thing@ma.bob', id: 1))
-        .to route_to("api/v1/collections#update", email: 'thing@ma.bob', id: "1")
+      expect(put: api_v1_update_user_collection_path(email: 'thing@ma.bob', id: '1'))
+        .to route_to("api/v1/collections#update", email: 'thing@ma.bob', id: '1')
     end
 
     it "routes to #destroy" do
-      expect(delete: api_v1_delete_user_collection_path(email: 'thing@ma.bob', id: 1))
-        .to route_to("api/v1/collections#destroy", email: 'thing@ma.bob', id: "1")
+      expect(delete: api_v1_delete_user_collection_path(email: 'thing@ma.bob', id: '1'))
+        .to route_to("api/v1/collections#destroy", email: 'thing@ma.bob', id: '1')
     end
   end
 end
