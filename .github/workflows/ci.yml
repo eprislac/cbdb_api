@@ -50,6 +50,7 @@ jobs:
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cbdb_test
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -78,12 +79,12 @@ jobs:
           POSTGRES_HOST: localhost
           POSTGRES_DB: cbdb_test
           POSTGRES_USER: postgres
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/cbdb_test
           POSTGRES_PASSWORD: postgres
           POSTGRES_PORT: 5432
         run: |
           bundle exec rails db:create
           bundle exec rails db:schema:load
-          bundle exec rails db:migrate
 
       # Run Tests
       - name: Run tests
