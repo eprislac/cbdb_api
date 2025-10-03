@@ -21,7 +21,7 @@ RSpec.describe "/copies", type: :request do
   let(:publisher) { Publisher.create!(name: "Marvel Comics") }
   let(:publication) { Publication.create!(title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
   let(:issue) { Issue.create!(number: 1, publication_id: publication.id) }
-  
+
   let(:valid_attributes) {
     { issue_id: issue.id, condition_id: condition.id, notes: "First appearance" }
   }

@@ -18,7 +18,7 @@ RSpec.describe "/publications", type: :request do
   # adjust the attributes here as well.
   let(:publication_type) { PublicationType.create!(name: "Comic Book") }
   let(:publisher) { Publisher.create!(name: "Marvel Comics") }
-  
+
   let(:valid_attributes) {
     { title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id }
   }

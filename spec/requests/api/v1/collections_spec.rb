@@ -17,7 +17,7 @@ RSpec.describe "/collections", type: :request do
   # Collection. As you add validations to Collection, be sure to
   # adjust the attributes here as well.
   let(:user) { User.create!(name: "John Doe", email: "john@example.com") }
-  
+
   let(:valid_attributes) {
     { user_id: user.id }
   }
