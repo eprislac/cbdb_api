@@ -1,8 +1,8 @@
 require "rails_helper"
 
-Rspec.describe Api do
- Rspec.describe V1 do
-  Rspec.describe ByLinesController, type: :routing do
+RSpec.describe Api do
+ RSpec.describe V1 do
+  RSpec.describe ByLinesController, type: :routing do
     describe "routing" do
       it "routes to #index" do
         expect(api_v1_by_lines_path).to route_to(controller: "api/v1/by_lines", action: "index", format: 'json')
