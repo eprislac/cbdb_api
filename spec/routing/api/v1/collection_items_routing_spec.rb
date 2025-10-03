@@ -4,33 +4,33 @@ RSpec.describe Api::V1::CollectionItemsController, type: :routing do
   describe "routing" do
     it "routes to #index" do
       expect(get: api_v1_collection_items_path(collection_id: '1', email: 'thing@ma.bob'))
-        .to route_to("api/v1/collection_items_items#index", collection_id: '1', email: 'thing@ma.bob')
+        .to route_to(controller: "api/v1/collection_item_items", action: "index", collection_id: '1', email: 'thing@ma.bob')
     end
 
     it "routes to #show" do
       expect(get: api_v1_collection_item_path(collection_id: '1', id: '1', email: 'thing@ma.bob'))
-        .to route_to("api/v1/collections_items#show", id: '1', collection_id: '1', email: 'thing@ma.bob')
+        .to route_to(controller: "api/v1/collection_items", action: "show", id: '1', collection_id: '1', email: 'thing@ma.bob')
     end
 
 
     it "routes to #create" do
       expect(post: api_v1_create_collection_item_path(collection_id: '1', email: 'thing@ma.bob'))
-        .to route_to("api/v1/collections_items#create", collection_id: '1', email: 'thing@ma.bob')
+        .to route_to(controller: "api/v1/collection_items", action: "create", collection_id: '1', email: 'thing@ma.bob')
     end
 
     it "routes to #update via PUT" do
       expect(put: api_v1_update_collection_item_path(id: '1', collection_id: '1', email: 'thing@ma.bob'))
-        .to route_to("api/v1/collections_items#update", id: '1', collection_id: '1', email: 'thing@ma.bob')
+        .to route_to(controller: "api/v1/collection_items", action: "update", id: '1', collection_id: '1', email: 'thing@ma.bob')
     end
 
     it "routes to #update via PATCH" do
       expect(patch: api_v1_update_collection_item_path(id: '1', collection_id: '1', email: 'thing@ma.bob'))
-        .to route_to("api/v1/collections_items#update", id: '1', collection_id: '1', email: 'thing@ma.bob')
+        .to route_to(controller: "api/v1/collection_items", action: "update", id: '1', collection_id: '1', email: 'thing@ma.bob')
     end
 
     it "routes to #destroy" do
       expect(delete: api_v1_delete_collection_item_path(id: '1', collection_id: '1', email: 'thing@ma.bob'))
-        .to route_to("api/v1/collections_items#destroy", id: '1', collection_id: '1', email: 'thing@ma.bob')
+        .to route_to(controller: "api/v1/collection_items", action: "destroy", id: '1', collection_id: '1', email: 'thing@ma.bob')
     end
   end
 end
