@@ -76,10 +76,10 @@ jobs:
       - name: Prepare database
         env:
           RAILS_ENV: test
-          POSTGRES_HOST: localhost
+          POSTGRES_HOST: 0.0.0.0
           POSTGRES_DB: cbdb_test
           POSTGRES_USER: postgres
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/cbdb_test
+          DATABASE_URL: postgres://postgres:postgres@0.0.0.0:5432/cbdb_test
           POSTGRES_PASSWORD: postgres
           POSTGRES_PORT: 5432
         run: |
@@ -90,9 +90,11 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
-          POSTGRES_HOST: localhost
+          POSTGRES_HOST: 0.0.0.0
           POSTGRES_DB: cbdb_test
           POSTGRES_USER: postgres
+          DATABASE_URL: postgres://postgres:postgres@0.0.0.0:5432/cbdb_test
           POSTGRES_PASSWORD: postgres
+          POSTGRES_PORT: 5432
         run: |
           bundle exec rspec
