@@ -41,54 +41,50 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    # PostgreSQL Service Container
-
     services:
       postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+        image: postgres:13
         ports:
           - 5432:5432
+        env:
+          POSTGRES_DB: cbdb_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
-      # Downloads a copy of the code in your repository before running CI tests
-      - name: Check out repository code
-        uses: actions/checkout@v5
+      - uses: actions/checkout@v3
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+          ruby-version: "3.1.2" # Adjust to your Ruby version
 
       - name: Install dependencies
         run: |
+          gem install bundler
           bundle install
 
-      # Prepare Database
-      - name: Prepare database
+      - name: Setup database
         env:
           RAILS_ENV: test
           POSTGRES_HOST: localhost
-          POSTGRES_DB: cbdb_test
           POSTGRES_USER: postgres
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/cbdb_test
           POSTGRES_PASSWORD: postgres
-          POSTGRES_PORT: 5432
+          POSTGRES_DB: cbdb_test
         run: |
           bundle exec rails db:create
-          bundle exec rails db:schema:load
+          bundle exec rails db:migrate
 
-      # Run Tests
-      - name: Run tests
+      - name: Run RSpec tests
         env:
           RAILS_ENV: test
           POSTGRES_HOST: localhost
-          POSTGRES_DB: cbdb_test
           POSTGRES_USER: postgres
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/cbdb_test
           POSTGRES_PASSWORD: postgres
-          POSTGRES_PORT: 5432
-        run: |
-          bundle exec rspec
+          POSTGRES_DB: cbdb_test
+        run: bundle exec rspec
