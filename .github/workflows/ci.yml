@@ -87,6 +87,8 @@ jobs:
           RAILS_ENV: test
           POSTGRES_HOST: localhost
           POSTGRES_USER: postgres
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: cbdb_test
         run: bundle exec rspec
