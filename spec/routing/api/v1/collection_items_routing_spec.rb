@@ -14,7 +14,8 @@ RSpec.describe "API V1 Collection Items Routes", type: :routing do
         controller: "api/v1/collection_items",
         action: "index",
         email: email,
-        collection_id: collection_id
+        collection_id: collection_id,
+        forma: 'json'
       )
     end
 
@@ -24,7 +25,8 @@ RSpec.describe "API V1 Collection Items Routes", type: :routing do
         action: "show",
         email: email,
         collection_id: collection_id,
-        id: item_id
+        id: item_id,
+        forma: 'json'
       )
     end
   end
@@ -35,7 +37,8 @@ RSpec.describe "API V1 Collection Items Routes", type: :routing do
         controller: "api/v1/collection_items",
         action: "create",
         email: email,
-        collection_id: collection_id
+        collection_id: collection_id,
+        forma: 'json'
       )
     end
   end
@@ -47,7 +50,8 @@ RSpec.describe "API V1 Collection Items Routes", type: :routing do
         action: "update",
         email: email,
         collection_id: collection_id,
-        id: item_id
+        id: item_id,
+        forma: 'json'
       )
     end
   end
@@ -59,7 +63,8 @@ RSpec.describe "API V1 Collection Items Routes", type: :routing do
         action: "destroy",
         email: email,
         collection_id: collection_id,
-        id: item_id
+        id: item_id,
+        forma: 'json'
       )
     end
   end
