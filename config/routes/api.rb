@@ -44,5 +44,6 @@ namespace :api do
     resources :conditions
     resources :issues
     resources :covers
+    resources :credits
   end
 end
