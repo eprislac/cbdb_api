@@ -36,14 +36,14 @@ namespace :api do
       to: "collection_items#destroy",
       as: :delete_collection_item
 
-    resources :publishers,  defaults: { format: :json }
-    resources :publications,  defaults: { format: :json }
-    resources :publication_types, defaults: { format: :json }
-    resources :creators,  defaults: { format: :json }
-    resources :by_lines, defaults: { format: :json }
-    resources :conditions,  defaults: { format: :json }
-    resources :issues,  defaults: { format: :json }
-    resources :covers,  defaults: { format: :json }
-    resources :credits,  defaults: { format: :json }
+    resources :publishers,  defaults: { format: "json" }
+    resources :publications,  defaults: { format: "json" }
+    resources :publication_types, defaults: { format: "json" }
+    resources :creators,  defaults: { format: "json" }
+    resources :by_lines, defaults: { format: "json" }
+    resources :conditions,  defaults: { format: "json" }
+    resources :issues,  defaults: { format: "json" }
+    resources :covers,  defaults: { format: "json" }
+    resources :credits,  defaults: { format: "json" }
   end
 end
