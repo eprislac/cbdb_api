@@ -16,12 +16,17 @@ RSpec.describe "/covers", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Cover. As you add validations to Cover, be sure to
   # adjust the attributes here as well.
+  let(:publication_type) { PublicationType.create!(name: "Comic Book") }
+  let(:publisher) { Publisher.create!(name: "Marvel Comics") }
+  let(:publication) { Publication.create!(title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
+  let(:issue) { Issue.create!(number: 1, publication_id: publication.id) }
+  
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { variant: "Regular", issue_id: issue.id }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { variant: "Regular", issue_id: nil }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +90,7 @@ RSpec.describe "/covers", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { variant: "Variant Cover" }
       }
 
       it "updates the requested cover" do
@@ -93,7 +98,7 @@ RSpec.describe "/covers", type: :request do
         patch cover_url(cover),
               params: { cover: new_attributes }, headers: valid_headers, as: :json
         cover.reload
-        skip("Add assertions for updated state")
+        expect(cover.variant).to eq("Variant Cover")
       end
 
       it "renders a JSON response with the cover" do

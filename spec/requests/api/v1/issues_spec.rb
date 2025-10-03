@@ -16,12 +16,16 @@ RSpec.describe "/issues", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Issue. As you add validations to Issue, be sure to
   # adjust the attributes here as well.
+  let(:publication_type) { PublicationType.create!(name: "Comic Book") }
+  let(:publisher) { Publisher.create!(name: "Marvel Comics") }
+  let(:publication) { Publication.create!(title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
+  
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { number: 1, publication_id: publication.id }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { number: 1, publication_id: nil }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +89,7 @@ RSpec.describe "/issues", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { number: 2 }
       }
 
       it "updates the requested issue" do
@@ -93,7 +97,7 @@ RSpec.describe "/issues", type: :request do
         patch issue_url(issue),
               params: { issue: new_attributes }, headers: valid_headers, as: :json
         issue.reload
-        skip("Add assertions for updated state")
+        expect(issue.number).to eq(2)
       end
 
       it "renders a JSON response with the issue" do

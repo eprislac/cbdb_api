@@ -17,11 +17,11 @@ RSpec.describe "/conditions", type: :request do
   # Condition. As you add validations to Condition, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { name: "Near Mint" }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { name: "" }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +85,7 @@ RSpec.describe "/conditions", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { name: "Very Fine" }
       }
 
       it "updates the requested condition" do
@@ -93,7 +93,7 @@ RSpec.describe "/conditions", type: :request do
         patch condition_url(condition),
               params: { condition: new_attributes }, headers: valid_headers, as: :json
         condition.reload
-        skip("Add assertions for updated state")
+        expect(condition.name).to eq("Very Fine")
       end
 
       it "renders a JSON response with the condition" do

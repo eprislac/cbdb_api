@@ -16,12 +16,18 @@ RSpec.describe "/copies", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Copy. As you add validations to Copy, be sure to
   # adjust the attributes here as well.
+  let(:condition) { Condition.create!(name: "Near Mint") }
+  let(:publication_type) { PublicationType.create!(name: "Comic Book") }
+  let(:publisher) { Publisher.create!(name: "Marvel Comics") }
+  let(:publication) { Publication.create!(title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
+  let(:issue) { Issue.create!(number: 1, publication_id: publication.id) }
+  
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { issue_id: issue.id, condition_id: condition.id, notes: "First appearance" }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { issue_id: nil, condition_id: nil }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -84,8 +90,9 @@ RSpec.describe "/copies", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
+      let(:new_condition) { Condition.create!(name: "Very Fine") }
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { condition_id: new_condition.id, notes: "Updated notes" }
       }
 
       it "updates the requested copy" do
@@ -93,7 +100,8 @@ RSpec.describe "/copies", type: :request do
         patch copy_url(copy),
               params: { copy: new_attributes }, headers: valid_headers, as: :json
         copy.reload
-        skip("Add assertions for updated state")
+        expect(copy.condition_id).to eq(new_condition.id)
+        expect(copy.notes).to eq("Updated notes")
       end
 
       it "renders a JSON response with the copy" do

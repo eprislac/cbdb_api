@@ -16,12 +16,19 @@ RSpec.describe "/credits", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Credit. As you add validations to Credit, be sure to
   # adjust the attributes here as well.
+  let(:by_line) { ByLine.create!(name: "Writer") }
+  let(:creator) { Creator.create!(name: "Stan Lee") }
+  let(:publication_type) { PublicationType.create!(name: "Comic Book") }
+  let(:publisher) { Publisher.create!(name: "Marvel Comics") }
+  let(:publication) { Publication.create!(title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
+  let(:issue) { Issue.create!(number: 1, publication_id: publication.id) }
+  
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { by_line_id: by_line.id, creator_id: creator.id, issue_id: issue.id }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { by_line_id: nil, creator_id: nil, issue_id: nil }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -84,8 +91,9 @@ RSpec.describe "/credits", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
+      let(:new_by_line) { ByLine.create!(name: "Artist") }
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { by_line_id: new_by_line.id }
       }
 
       it "updates the requested credit" do
@@ -93,7 +101,7 @@ RSpec.describe "/credits", type: :request do
         patch credit_url(credit),
               params: { credit: new_attributes }, headers: valid_headers, as: :json
         credit.reload
-        skip("Add assertions for updated state")
+        expect(credit.by_line_id).to eq(new_by_line.id)
       end
 
       it "renders a JSON response with the credit" do

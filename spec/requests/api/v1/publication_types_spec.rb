@@ -17,11 +17,11 @@ RSpec.describe "/publication_types", type: :request do
   # PublicationType. As you add validations to PublicationType, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { name: "Comic Book" }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { name: nil }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +85,7 @@ RSpec.describe "/publication_types", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { name: "Magazine" }
       }
 
       it "updates the requested publication_type" do
@@ -93,7 +93,7 @@ RSpec.describe "/publication_types", type: :request do
         patch publication_type_url(publication_type),
               params: { publication_type: new_attributes }, headers: valid_headers, as: :json
         publication_type.reload
-        skip("Add assertions for updated state")
+        expect(publication_type.name).to eq("Magazine")
       end
 
       it "renders a JSON response with the publication_type" do

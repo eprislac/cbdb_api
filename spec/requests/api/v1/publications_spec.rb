@@ -16,12 +16,15 @@ RSpec.describe "/publications", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Publication. As you add validations to Publication, be sure to
   # adjust the attributes here as well.
+  let(:publication_type) { PublicationType.create!(name: "Comic Book") }
+  let(:publisher) { Publisher.create!(name: "Marvel Comics") }
+  
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { title: "Invalid Publication", publication_type_id: nil, publisher_id: nil }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +88,7 @@ RSpec.describe "/publications", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { title: "The Incredible Hulk" }
       }
 
       it "updates the requested publication" do
@@ -93,7 +96,7 @@ RSpec.describe "/publications", type: :request do
         patch publication_url(publication),
               params: { publication: new_attributes }, headers: valid_headers, as: :json
         publication.reload
-        skip("Add assertions for updated state")
+        expect(publication.title).to eq("The Incredible Hulk")
       end
 
       it "renders a JSON response with the publication" do

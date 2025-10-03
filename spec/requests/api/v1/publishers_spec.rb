@@ -17,11 +17,11 @@ RSpec.describe "/publishers", type: :request do
   # Publisher. As you add validations to Publisher, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { name: "Marvel Comics" }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { name: "" }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +85,7 @@ RSpec.describe "/publishers", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { name: "DC Comics" }
       }
 
       it "updates the requested publisher" do
@@ -93,7 +93,7 @@ RSpec.describe "/publishers", type: :request do
         patch publisher_url(publisher),
               params: { publisher: new_attributes }, headers: valid_headers, as: :json
         publisher.reload
-        skip("Add assertions for updated state")
+        expect(publisher.name).to eq("DC Comics")
       end
 
       it "renders a JSON response with the publisher" do

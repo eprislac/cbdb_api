@@ -18,7 +18,7 @@ RSpec.describe "api/v1/by_lines", type: :request do
   # adjust the attributes here as well.
   let(:valid_attributes) { { name: 'Writer' } }
 
-  let(:invalid_attributes) { { last_name: 'Writer' }  }
+  let(:invalid_attributes) { { name: '' }  }
 
 
   # This should return the minimal set of values that should be in the headers
@@ -82,7 +82,7 @@ RSpec.describe "api/v1/by_lines", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { name: "Artist" }
       }
 
       it "updates the requested by_line" do
@@ -90,7 +90,7 @@ RSpec.describe "api/v1/by_lines", type: :request do
         patch by_line_url(by_line),
               params: { by_line: new_attributes }, headers: valid_headers, as: :json
         by_line.reload
-        skip("Add assertions for updated state")
+        expect(by_line.name).to eq("Artist")
       end
 
       it "renders a JSON response with the by_line" do
