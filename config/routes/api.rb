@@ -1,9 +1,11 @@
 namespace :api do
   namespace :v1 do
-    resources :users
+    resources :users,  defaults: { format: "json" }
+
     get "users/by_enc_str/:enc_str",
       to: "users#by_enc_str",
       as: :user_by_enc_str
+
     get "/:email/collections",
       to: "collections#index",
       as: :user_collections
@@ -20,19 +22,19 @@ namespace :api do
       to: "collections#destroy",
       as: :delete_user_collection
 
-    get "/:email/collection/:collection_id/items",
+    get "/:email/collections/:collection_id/items",
       to: "collection_items#index",
       as: :collection_items
-    get "/:email/collection/:collection_id/items/:id",
+    get "/:email/collections/:collection_id/items/:id",
       to: "collection_items#show",
       as: :collection_item
-    post "/:email/collection/:collection_id/items",
+    post "/:email/collections/:collection_id/items",
       to: "collection_items#create",
       as: :create_collection_item
-    put "/:email/collection/:collection_id/items/:id",
+    put "/:email/collections/:collection_id/items/:id",
       to: "collection_items#update",
       as: :update_collection_item
-    delete "/:email/collection/:collection_id/items/:id",
+    delete "/:email/collections/:collection_id/items/:id",
       to: "collection_items#destroy",
       as: :delete_collection_item
 

@@ -9,13 +9,13 @@ RSpec.describe Api::V1::PublicationTypesController, type: :routing do
 
     it "routes to #show" do
       expect(get: "/api/v1/publication_types/1", format: 'json')
-        .to route_to("api/v1/publication_types#show", id: "1")
+        .to route_to("api/v1/publication_types#show", id: "1", format: 'json')
     end
 
 
     it "routes to #create" do
       expect(post: "/api/v1/publication_types", format: 'json')
-        .to route_to("api/v1/publication_types#create")
+        .to route_to("api/v1/publication_types#create", format: 'json')
     end
 
     it "routes to #update via PUT" do
