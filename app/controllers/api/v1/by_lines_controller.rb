@@ -1,8 +1,6 @@
 module Api
   module V1
     class ByLinesController < ApplicationController
-      before_action :set_by_line, only: %i[ show update destroy ]
-
       # GET /by_lines
       def index
         @by_lines = ByLine.all
@@ -12,7 +10,7 @@ module Api
 
       # GET /by_lines/1
       def show
-        render json: @by_line
+        render json: by_line
       end
 
       # POST /by_lines
@@ -28,16 +26,16 @@ module Api
 
       # PATCH/PUT /by_lines/1
       def update
-        if @by_line.update(by_line_params)
-          render json: @by_line
+        if by_line.update(by_line_params)
+          render json: by_line
         else
-          render json: @by_line.errors, status: :unprocessable_entity
+          render json: by_line.errors, status: :unprocessable_entity
         end
       end
 
       # DELETE /by_lines/1
       def destroy
-        @by_line.destroy!
+        by_line.destroy!
       end
 
       private
