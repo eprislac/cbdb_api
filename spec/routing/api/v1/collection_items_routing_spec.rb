@@ -19,7 +19,7 @@ RSpec.describe Api::V1::CollectionItemsController, type: :routing do
     end
 
     it "routes to #update via PUT" do
-      expect(put: api_v1_update_user_collection_items_path(id: 1)
+      expect(put: api_v1_update_user_collection_items_path(id: 1))
         .to route_to("api/v1/collections_items#update", id: "1")
     end
 
