@@ -24,6 +24,7 @@ RSpec.describe "/conditions", type: :request do
     { name: "" }
   }
 
+  let(:condition) { create(:condition, name: 'Near Mint') }
   # This should return the minimal set of values that should be in the headers
   # in order to pass any filters (e.g. authentication) defined in
   # ConditionsController, or in your router and rack
@@ -33,8 +34,8 @@ RSpec.describe "/conditions", type: :request do
   }
 
   describe "GET /index" do
+    let!(:condition) { create(:condition, name: 'Near Mint') }
     it "renders a successful response" do
-      Condition.create! valid_attributes
       get api_v1_conditions_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end
@@ -42,7 +43,6 @@ RSpec.describe "/conditions", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
-      condition = Condition.create! valid_attributes
       get api_v1_condition_url(condition), as: :json
       expect(response).to be_successful
     end
@@ -87,9 +87,9 @@ RSpec.describe "/conditions", type: :request do
       let(:new_attributes) {
         { name: "Very Fine" }
       }
+      let(:condition) { create(:condition, name: 'Near Mint') }
 
       it "updates the requested condition" do
-        condition = Condition.create! valid_attributes
         patch api_v1_condition_url(condition),
               params: { condition: new_attributes }, headers: valid_headers, as: :json
         condition.reload
@@ -97,7 +97,6 @@ RSpec.describe "/conditions", type: :request do
       end
 
       it "renders a JSON response with the condition" do
-        condition = Condition.create! valid_attributes
         patch api_v1_condition_url(condition),
               params: { condition: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
@@ -106,8 +105,8 @@ RSpec.describe "/conditions", type: :request do
     end
 
     context "with invalid parameters" do
+      let(:condition) { create(:condition, name: 'Near Mint') }
       it "renders a JSON response with errors for the condition" do
-        condition = Condition.create! valid_attributes
         patch api_v1_condition_url(condition),
               params: { condition: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
@@ -117,8 +116,8 @@ RSpec.describe "/conditions", type: :request do
   end
 
   describe "DELETE /destroy" do
+    let(:condition) { create(:condition, name: 'Near Mint') }
     it "destroys the requested condition" do
-      condition = Condition.create! valid_attributes
       expect {
         delete api_v1_condition_url(condition), headers: valid_headers, as: :json
       }.to change(Condition, :count).by(-1)

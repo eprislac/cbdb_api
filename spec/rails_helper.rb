@@ -4,7 +4,6 @@ ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'factory_bot_rails'
 require 'database_cleaner/active_record'
-
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 # Uncomment the line below in case you have `--require rails_helper` in the `.rspec` file
@@ -26,7 +25,7 @@ require 'rspec/rails'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
+Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
 
 # Ensures that the test database schema matches the current schema file.
 # If there are pending migrations it will invoke `db:test:prepare` to
@@ -46,7 +45,8 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  # Disable transactional fixtures when using DatabaseCleaner
+  config.use_transactional_fixtures = false
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
@@ -62,8 +62,7 @@ RSpec.configure do |config|
   # https://rspec.info/features/8-0/rspec-rails
   #
   # You can also this infer these behaviours automatically by location, e.g.
-  # /spec/models would pull in the same behaviour as `type: :model` but this
-  # behaviour is considered legacy and will be removed in a future version.
+  # /spec/models would pull in file_location!
   #
   # To enable this behaviour uncomment the line below.
   # config.infer_spec_type_from_file_location!
@@ -72,12 +71,30 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-  #
+  
+  # Include FactoryBot syntax methods
   config.include FactoryBot::Syntax::Methods
-  DatabaseCleaner.strategy = :transaction
+  
+  # DatabaseCleaner configuration
+  config.before(:suite) do
+    # Ensure factories are loaded
+    FactoryBot.reload
+    
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, js: true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
   config.before(:each) do
     DatabaseCleaner.start
   end
+
   config.append_after(:each) do
     DatabaseCleaner.clean
   end

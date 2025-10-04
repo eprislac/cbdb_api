@@ -28,7 +28,7 @@ module Api
 
       # PATCH/PUT /issues/1
       def update
-        if @issue.update(issue_params)
+        if issue.update(issue_params)
           render json: issue
         else
           render json: issue.errors, status: :unprocessable_entity
@@ -41,7 +41,6 @@ module Api
       end
 
       private
-      # Use callbacks to share common setup or constraints between actions.
       def issue
         @issue ||= Issue.find(params.expect(:id))
       end

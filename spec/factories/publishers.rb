@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :publisher do
-    name { "MyString" }
+  factory :publisher, class: 'Publisher' do
+    sequence(:name) { |n| "Publisher #{n}" }
   end
 end

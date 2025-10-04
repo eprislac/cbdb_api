@@ -1,5 +1,7 @@
 # # frozen_string_literal: true
 #
+require "pry"
+
 module Api
   module V1
     # calling this controller collection_items, but it's for class Copy
@@ -27,29 +29,27 @@ module Api
       def create
         @collection_item = collection.copies.new(collection_item_params)
 
-        if @collection_item.save
-          render json: @collection_item,
-            status: :created
-        else
-          Rails.logger.error("ERROR: #{@collection_item.errors.full_messages}")
-          render json: @collection_item.errors, status: :unprocessable_entity
-        end
+        @collection_item.save!
+        render json: @collection_item,
+          status: :created
+      rescue StandardError => _e
+        Rails.logger.error("ERROR: #{@collection_item.errors.full_messages}")
+        render json: @collection_item.errors, status: :unprocessable_entity
       end
 
       # PATCH /PUT /collection_items/1
       def update
-        if collection_item.update(collection_item_params)
-          render json: collection_item
-        else
-          Rails.logger.error("ERROR: #{collection_item.errors.full_messages}")
-          render json: collection_item.errors, status: :unprocessable_entity
-        end
+        collection_item.update!(collection_item_params)
+        render json: collection_item
+      rescue StandardError => e
+        Rails.logger.error("ERROR: #{collection_item.errors.full_messages}")
+        render json: collection_item.errors,
+               status: :unprocessable_entity
       end
 
       # DELETE /collection_items/1
       def destroy
         collection_item.destroy!
-
         render json: { message: "Collection item deleted successfully" }, status: :ok
       rescue StandardError => e
         Rails.logger.error("ERROR: #{e.message}")
@@ -72,13 +72,12 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def collection_item_params
-        params.expect(
-          collection_item: %i[
-            id issue_id publication_id publication_type_id acquired_on
-            creator_id by_line_id condition_id publisher_id notes
-            price_paid issue_number volume_number year month
-          ]
-        )
+        params
+          .require(:collection_item)
+          .permit(
+            :id, :issue_id, :acquired_on, :condition_id, :notes,
+            :price_paid, :cover_id
+          )
       end
 
       def email

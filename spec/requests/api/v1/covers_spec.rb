@@ -16,10 +16,10 @@ RSpec.describe "/covers", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Cover. As you add validations to Cover, be sure to
   # adjust the attributes here as well.
-  let(:publication_type) { create!(:publication_type, name: "Comic Book") }
-  let(:publisher) { create!(:publisher, name: "Marvel Comics") }
-  let(:publication) { create!(:publication, title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
-  let(:issue) { Issue.create!(:issue, number: 1, publication_id: publication.id) }
+  let(:publication_type) { create(:publication_type, name: "Comic Book") }
+  let(:publisher) { create(:publisher, name: "Marvel Comics") }
+  let(:publication) { create(:publication, title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
+  let(:issue) { create(:issue, number: 1, publication_id: publication.id) }
 
   let(:valid_attributes) {
     { variant: "Regular", issue_id: issue.id }
@@ -40,7 +40,7 @@ RSpec.describe "/covers", type: :request do
   describe "GET /index" do
     it "renders a successful response" do
       Cover.create! valid_attributes
-      get covers_url, headers: valid_headers, as: :json
+      get api_v1_covers_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end
   end
@@ -48,7 +48,7 @@ RSpec.describe "/covers", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       cover = Cover.create! valid_attributes
-      get cover_url(cover), as: :json
+      get api_v1_cover_url(cover), as: :json
       expect(response).to be_successful
     end
   end
@@ -57,13 +57,13 @@ RSpec.describe "/covers", type: :request do
     context "with valid parameters" do
       it "creates a new Cover" do
         expect {
-          post covers_url,
+          post api_v1_covers_url,
                params: { cover: valid_attributes }, headers: valid_headers, as: :json
         }.to change(Cover, :count).by(1)
       end
 
       it "renders a JSON response with the new cover" do
-        post covers_url,
+        post api_v1_covers_url,
              params: { cover: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -73,13 +73,13 @@ RSpec.describe "/covers", type: :request do
     context "with invalid parameters" do
       it "does not create a new Cover" do
         expect {
-          post covers_url,
+          post api_v1_covers_url,
                params: { cover: invalid_attributes }, as: :json
         }.to change(Cover, :count).by(0)
       end
 
       it "renders a JSON response with errors for the new cover" do
-        post covers_url,
+        post api_v1_covers_url,
              params: { cover: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -95,7 +95,7 @@ RSpec.describe "/covers", type: :request do
 
       it "updates the requested cover" do
         cover = Cover.create! valid_attributes
-        patch cover_url(cover),
+        patch api_v1_cover_url(cover),
               params: { cover: new_attributes }, headers: valid_headers, as: :json
         cover.reload
         expect(cover.variant).to eq("Variant Cover")
@@ -103,7 +103,7 @@ RSpec.describe "/covers", type: :request do
 
       it "renders a JSON response with the cover" do
         cover = Cover.create! valid_attributes
-        patch cover_url(cover),
+        patch api_v1_cover_url(cover),
               params: { cover: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -113,7 +113,7 @@ RSpec.describe "/covers", type: :request do
     context "with invalid parameters" do
       it "renders a JSON response with errors for the cover" do
         cover = Cover.create! valid_attributes
-        patch cover_url(cover),
+        patch api_v1_cover_url(cover),
               params: { cover: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -125,7 +125,7 @@ RSpec.describe "/covers", type: :request do
     it "destroys the requested cover" do
       cover = Cover.create! valid_attributes
       expect {
-        delete cover_url(cover), headers: valid_headers, as: :json
+        delete api_v1_cover_url(cover), headers: valid_headers, as: :json
       }.to change(Cover, :count).by(-1)
     end
   end

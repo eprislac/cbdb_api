@@ -23,7 +23,7 @@ RSpec.describe "/creators", type: :request do
   describe "GET /index" do
     it "renders a successful response" do
       Creator.create! valid_attributes
-      get creators_url, headers: valid_headers, as: :json
+      get api_v1_creators_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end
   end
@@ -31,7 +31,7 @@ RSpec.describe "/creators", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       creator = Creator.create! valid_attributes
-      get creator_url(creator), as: :json
+      get api_v1_creator_url(creator), as: :json
       expect(response).to be_successful
     end
   end
@@ -40,13 +40,13 @@ RSpec.describe "/creators", type: :request do
     context "with valid parameters" do
       it "creates a new Creator" do
         expect {
-          post creators_url,
+          post api_v1_creators_url,
                params: { creator: valid_attributes }, headers: valid_headers, as: :json
         }.to change(Creator, :count).by(1)
       end
 
       it "renders a JSON response with the new creator" do
-        post creators_url,
+        post api_v1_creators_url,
              params: { creator: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -56,13 +56,13 @@ RSpec.describe "/creators", type: :request do
     context "with invalid parameters" do
       it "does not create a new Creator" do
         expect {
-          post creators_url,
+          post api_v1_creators_url,
                params: { creator: invalid_attributes }, as: :json
         }.to change(Creator, :count).by(0)
       end
 
       it "renders a JSON response with errors for the new creator" do
-        post creators_url,
+        post api_v1_creators_url,
              params: { creator: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -73,20 +73,21 @@ RSpec.describe "/creators", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        { name: "Jack Kirby" }
+        { first_name: "Jack", last_name: "Kirby" }
       }
 
       it "updates the requested creator" do
         creator = Creator.create! valid_attributes
-        patch creator_url(creator),
+        patch api_v1_creator_url(creator),
               params: { creator: new_attributes }, headers: valid_headers, as: :json
         creator.reload
-        expect(creator.name).to eq("Jack Kirby")
+        expect(creator.first_name).to eq("Jack")
+        expect(creator.last_name).to eq("Kirby")
       end
 
       it "renders a JSON response with the creator" do
         creator = Creator.create! valid_attributes
-        patch creator_url(creator),
+        patch api_v1_creator_url(creator),
               params: { creator: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -96,7 +97,7 @@ RSpec.describe "/creators", type: :request do
     context "with invalid parameters" do
       it "renders a JSON response with errors for the creator" do
         creator = Creator.create! valid_attributes
-        patch creator_url(creator),
+        patch api_v1_creator_url(creator),
               params: { creator: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -108,7 +109,7 @@ RSpec.describe "/creators", type: :request do
     it "destroys the requested creator" do
       creator = Creator.create! valid_attributes
       expect {
-        delete creator_url(creator), headers: valid_headers, as: :json
+        delete api_v1_creator_url(creator), headers: valid_headers, as: :json
       }.to change(Creator, :count).by(-1)
     end
   end

@@ -4,15 +4,19 @@ RSpec.describe "/credits", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Credit. As you add validations to Credit, be sure to
   # adjust the attributes here as well.
-  let(:by_line) { create!(:by_line, name: "Writer") }
-  let(:creator) { create!(:creator, last_name: "Lee", first_name: "Stan") }
-  let(:publication_type) { create!(:publication_type, name: "Comic Book") }
-  let(:publisher) { create!(:publisher, name: "Marvel Comics") }
-  let(:publication) { create!(:publilcation, title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
-  let(:issue) { create!(:issue, number: 1, publication_id: publication.id) }
+  let(:by_line) { create(:by_line, name: "Writer") }
+  let(:creator) { create(:creator, last_name: "Lee", first_name: "Stan") }
+  let(:publication_type) { create(:publication_type, name: "Comic Book") }
+  let(:publisher) { create(:publisher, name: "Marvel Comics") }
+  let(:publication) { create(:publilcation, title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
+  let(:issue) { create(:issue, number: 1, publication_id: publication.id) }
 
   let(:valid_attributes) {
-    { by_line_id: by_line.id, creator_id: creator.id, issue_id: issue.id }
+    {
+      by_line_id: by_line.id,
+      creator_id: creator.id,
+      issue_id: issue.id
+    }
   }
 
   let(:invalid_attributes) {

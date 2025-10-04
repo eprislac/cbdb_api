@@ -13,7 +13,7 @@ development:
 
 test:
   <<: *default
-  host: <%= ENV['POSTGRESQL_ADDON_HOST'] || 'localhost' %>
+  host: <%= ENV['POSTGRESQL_ADDON_HOST'] || ENV['DB_HOST'] || 'localhost' %>
   database: cbdb_test
 
 production:

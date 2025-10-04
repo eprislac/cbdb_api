@@ -47,7 +47,7 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def by_line_params
-        params.fetch(:by_line, {})
+        params.expect(:by_line).permit(:name)
       end
     end
   end

@@ -40,7 +40,7 @@ module Api
 
       private
       # Use callbacks to share common setup or constraints between actions.
-      def set_cover
+      def cover
         @cover ||= Cover.find(params.expect(:id))
       end
 

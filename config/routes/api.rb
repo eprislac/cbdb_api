@@ -15,6 +15,8 @@ namespace :api do
     post "/:email/collections",
       to: "collections#create",
       as: :create_user_collection
+    patch "/:email/collections/:id",
+      to: "collections#update"
     put "/:email/collections/:id",
       to: "collections#update",
       as: :update_user_collection
@@ -34,6 +36,8 @@ namespace :api do
     put "/:email/collections/:collection_id/items/:id",
       to: "collection_items#update",
       as: :update_collection_item
+    patch "/:email/collections/:collection_id/items/:id",
+      to: "collection_items#update"
     delete "/:email/collections/:collection_id/items/:id",
       to: "collection_items#destroy",
       as: :delete_collection_item

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "pry"
+
 module Api
   module V1
     class CollectionsController < ApiController
@@ -20,20 +22,20 @@ module Api
       def create
         @collection = user.collections.new(collection_params.except(:user_id))
 
-        if @collection.save
-          render json: @collection, status: :created, location: @collection
-        else
-          render json: @collection.errors, status: :unprocessable_entity
-        end
+        @collection.save!
+        render json: @collection, status: :created, location: @collection
+      rescue StandardError => e
+        Rails.logger.error("ERROR: #{collection.errors.full_messages}")
+        render json: @collection.errors, status: :unprocessable_entity
       end
 
       # PATCH/PUT /collections/1
       def update
-        if collection.update(collection_params.except(:user_id))
-          render json: collection
-        else
-          render json: collection.errors, status: :unprocessable_entity
-        end
+        collection.update!(collection_params.except(:user_id))
+        render json: collection
+      rescue StandardError => e
+        Rails.logger.error("ERROR: #{collection.errors.full_messages}")
+      render json: collection.errors, status: :unprocessable_entity
       end
 
       # DELETE /collections/1
@@ -43,7 +45,7 @@ module Api
 
       private
       def collection
-        @collection ||= relation.find(params.expect(:id))
+        @collection ||= relation.find(EncryptionService.decrypt(params.expect(:id)))
       end
 
       # Only allow a list of trusted parameters through.
@@ -56,7 +58,7 @@ module Api
       end
 
       def user # helper method to fetch user by decrypted user_id
-        @user ||= User.find_by_email(decrypt(email))
+        @user ||= User.find_by_email(EncryptionService.decrypt(email))
       end
 
       def user_id
