@@ -44,14 +44,13 @@ group :development, :test do
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
-  gem "hanami"
+  # gem "hanami"
   gem "rspec"
   gem "rspec-rails"
   gem "selenium-webdriver"
   gem "shoulda-matchers"
   gem "cucumber"
   gem "database_cleaner"
-  gem "factory_bot"
   gem "factory_bot_rails"
   gem "pry"
   gem "pry-remote"
@@ -62,3 +61,8 @@ end
 gem "colorize", "~> 1.1"
 
 gem "colorize_logs", "~> 0.1.0"
+
+gem "dotenv-rails", "~> 3.1"
+
+gem "guard", "~> 2.19"
+gem "guard-rspec", "~> 4.7"

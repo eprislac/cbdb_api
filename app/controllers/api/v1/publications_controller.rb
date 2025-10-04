@@ -1,0 +1,56 @@
+# frozen_string_literal: true
+
+module Api
+  module V1
+    class PublicationsController < ApplicationController
+      # GET /publications
+      def index
+        @publications = Publication.all
+
+        render json: @publications
+      end
+
+      # GET /publications/1
+      def show
+        render json: publication
+      end
+
+      # POST /publications
+      def create
+        @publication = Publication.new(publication_params)
+
+        if @publication.save
+          render json: publication, status: :created, location: @publication
+        else
+          render json: publication.errors, status: :unprocessable_entity
+        end
+      end
+
+      # PATCH/PUT /publications/1
+      def update
+        if publication.update(publication_params)
+          render json: publication
+        else
+          render json: publication.errors, status: :unprocessable_entity
+        end
+      end
+
+      # DELETE /publications/1
+      def destroy
+        publication.destroy!
+      end
+
+      private
+      def publication
+        @publication ||= Publication.find(params.expect(:id))
+      end
+
+      # Only allow a list of trusted parameters through.
+      def publication_params
+        params.expect(publication: %i[
+          title start_date end_date volume publication_type_id publisher_id
+        ])
+      end
+    end
+  end
+end
