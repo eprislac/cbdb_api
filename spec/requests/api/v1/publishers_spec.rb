@@ -21,17 +21,17 @@ RSpec.describe "/publishers", type: :request do
   }
 
   describe "GET /index" do
+    let!(:publisher) { create(:publisher, valid_attributes) }
     it "renders a successful response" do
-      Publisher.create! valid_attributes
-      get publishers_url, headers: valid_headers, as: :json
+      get api_v1_publishers_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end
   end
 
   describe "GET /show" do
+    let!(:publisher) { create(:publisher, valid_attributes) }
     it "renders a successful response" do
-      publisher = Publisher.create! valid_attributes
-      get publisher_url(publisher), as: :json
+      get api_v1_publisher_url(publisher), as: :json
       expect(response).to be_successful
     end
   end
@@ -40,13 +40,13 @@ RSpec.describe "/publishers", type: :request do
     context "with valid parameters" do
       it "creates a new Publisher" do
         expect {
-          post publishers_url,
+          post api_v1_publishers_url,
                params: { publisher: valid_attributes }, headers: valid_headers, as: :json
         }.to change(Publisher, :count).by(1)
       end
 
       it "renders a JSON response with the new publisher" do
-        post publishers_url,
+        post api_v1_publishers_url,
              params: { publisher: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -56,13 +56,13 @@ RSpec.describe "/publishers", type: :request do
     context "with invalid parameters" do
       it "does not create a new Publisher" do
         expect {
-          post publishers_url,
+          post api_v1_publishers_url,
                params: { publisher: invalid_attributes }, as: :json
         }.to change(Publisher, :count).by(0)
       end
 
       it "renders a JSON response with errors for the new publisher" do
-        post publishers_url,
+        post api_v1_publishers_url,
              params: { publisher: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -75,18 +75,17 @@ RSpec.describe "/publishers", type: :request do
       let(:new_attributes) {
         { name: "DC Comics" }
       }
+      let!(:publisher) { create(:publisher, valid_attributes) }
 
       it "updates the requested publisher" do
-        publisher = Publisher.create! valid_attributes
-        patch publisher_url(publisher),
+        patch api_v1_publisher_url(publisher),
               params: { publisher: new_attributes }, headers: valid_headers, as: :json
         publisher.reload
         expect(publisher.name).to eq("DC Comics")
       end
 
       it "renders a JSON response with the publisher" do
-        publisher = Publisher.create! valid_attributes
-        patch publisher_url(publisher),
+        patch api_v1_publisher_url(publisher),
               params: { publisher: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -94,9 +93,9 @@ RSpec.describe "/publishers", type: :request do
     end
 
     context "with invalid parameters" do
+      let!(:publisher) { create(:publisher, valid_attributes) }
       it "renders a JSON response with errors for the publisher" do
-        publisher = Publisher.create! valid_attributes
-        patch publisher_url(publisher),
+        patch api_v1_publisher_url(publisher),
               params: { publisher: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -105,10 +104,10 @@ RSpec.describe "/publishers", type: :request do
   end
 
   describe "DELETE /destroy" do
+    let!(:publisher) { create(:publisher, valid_attributes) }
     it "destroys the requested publisher" do
-      publisher = Publisher.create! valid_attributes
       expect {
-        delete publisher_url(publisher), headers: valid_headers, as: :json
+        delete api_v1_publisher_url(publisher), headers: valid_headers, as: :json
       }.to change(Publisher, :count).by(-1)
     end
   end

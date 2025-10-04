@@ -6,11 +6,17 @@ module Api
         @credits = Credit.all
 
         render json: @credits
+      rescue StandardError => e
+        Rails.logger.error("ERROR: #{e.message}")
+        render json: { error: e.message }, status: :unprocessable_entity
       end
 
       # GET /credits/1
       def show
         render json: credit
+      rescue StandardError => e
+        Rails.logger.error("ERROR: #{e.message}")
+        render json: { error: e.message }, status: :unprocessable_entity
       end
 
       # POST /credits
@@ -26,16 +32,20 @@ module Api
 
       # PATCH/PUT /credits/1
       def update
-        if credit.update(credit_params)
-          render json: credit
-        else
-          render json: credit.errors, status: :unprocessable_entity
-        end
+        credit.update!(credit_params)
+        render json: credit
+      rescue StandardError => e
+        Rails.logger.error("ERROR: #{credit.errors.full_messages}")
+        render json: credit.errors, status: :unprocessable_entity
       end
 
       # DELETE /credits/1
       def destroy
         credit.destroy!
+        render json: { message: "Credit deleted successfully" }, status: :ok
+      rescue StandardError => e
+        Rails.logger.error("ERROR: #{e.message}")
+        render json: { error: e.message }, status: :unprocessable_entity
       end
 
       private

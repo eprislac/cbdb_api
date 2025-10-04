@@ -24,6 +24,7 @@ RSpec.describe "/publications", type: :request do
   }
 
   describe "GET /index" do
+    let!(:publication) { create(:publication, valid_attributes) }
     it "renders a successful response" do
       Publication.create! valid_attributes
       get api_v1_publications_url, headers: valid_headers, as: :json
@@ -32,8 +33,8 @@ RSpec.describe "/publications", type: :request do
   end
 
   describe "GET /show" do
+    let!(:publication) { create(:publication, valid_attributes) }
     it "renders a successful response" do
-      publication = Publication.create! valid_attributes
       get api_v1_publication_url(publication), as: :json
       expect(response).to be_successful
     end
@@ -59,7 +60,7 @@ RSpec.describe "/publications", type: :request do
     context "with invalid parameters" do
       it "does not create a new Publication" do
         expect {
-          post papi_v1_publications_url,
+          post api_v1_publications_url,
                params: { publication: invalid_attributes }, as: :json
         }.to change(Publication, :count).by(0)
       end
@@ -75,12 +76,12 @@ RSpec.describe "/publications", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
+      let!(:publication) { create(:publication, valid_attributes) }
       let(:new_attributes) {
         { title: "The Incredible Hulk" }
       }
 
       it "updates the requested publication" do
-        publication = Publication.create! valid_attributes
         patch api_v1_publication_url(publication),
               params: { publication: new_attributes }, headers: valid_headers, as: :json
         publication.reload
@@ -88,7 +89,6 @@ RSpec.describe "/publications", type: :request do
       end
 
       it "renders a JSON response with the publication" do
-        publication = Publication.create! valid_attributes
         patch api_v1_publication_url(publication),
               params: { publication: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
@@ -97,8 +97,8 @@ RSpec.describe "/publications", type: :request do
     end
 
     context "with invalid parameters" do
+      let!(:publication) { create(:publication, valid_attributes) }
       it "renders a JSON response with errors for the publication" do
-        publication = Publication.create! valid_attributes
         patch api_v1_publication_url(publication),
               params: { publication: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
@@ -108,8 +108,8 @@ RSpec.describe "/publications", type: :request do
   end
 
   describe "DELETE /destroy" do
+    let!(:publication) { create(:publication, valid_attributes) }
     it "destroys the requested publication" do
-      publication = Publication.create! valid_attributes
       expect {
         delete api_v1_publication_url(publication), headers: valid_headers, as: :json
       }.to change(Publication, :count).by(-1)

@@ -33,17 +33,17 @@ RSpec.describe "api/v1/publication_types", type: :request do
   }
 
   describe "GET /index" do
+    let!(:publication_type) { create(:publication_type, valid_attributes) }
     it "renders a successful response" do
-      PublicationType.create! valid_attributes
-      get publication_types_url, headers: valid_headers, as: :json
+      get api_v1_publication_types_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end
   end
 
   describe "GET /show" do
+    let!(:publication_type) { create(:publication_type, valid_attributes) }
     it "renders a successful response" do
-      publication_type = PublicationType.create! valid_attributes
-      get publication_type_url(publication_type), as: :json
+      get api_v1_publication_type_url(publication_type), as: :json
       expect(response).to be_successful
     end
   end
@@ -52,13 +52,13 @@ RSpec.describe "api/v1/publication_types", type: :request do
     context "with valid parameters" do
       it "creates a new PublicationType" do
         expect {
-          post publication_types_url,
+          post api_v1_publication_types_url,
                params: { publication_type: valid_attributes }, headers: valid_headers, as: :json
         }.to change(PublicationType, :count).by(1)
       end
 
       it "renders a JSON response with the new publication_type" do
-        post publication_types_url,
+        post api_v1_publication_types_url,
              params: { publication_type: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -68,13 +68,13 @@ RSpec.describe "api/v1/publication_types", type: :request do
     context "with invalid parameters" do
       it "does not create a new PublicationType" do
         expect {
-          post publication_types_url,
+          post api_v1_publication_types_url,
                params: { publication_type: invalid_attributes }, as: :json
         }.to change(PublicationType, :count).by(0)
       end
 
       it "renders a JSON response with errors for the new publication_type" do
-        post publication_types_url,
+        post api_v1_publication_types_url,
              params: { publication_type: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -84,21 +84,21 @@ RSpec.describe "api/v1/publication_types", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
+      let!(:publication_type) { create(:publication_type, valid_attributes) }
+
       let(:new_attributes) {
         { name: "Magazine" }
       }
 
       it "updates the requested publication_type" do
-        publication_type = PublicationType.create! valid_attributes
-        patch publication_type_url(publication_type),
+        patch api_v1_publication_type_url(publication_type),
               params: { publication_type: new_attributes }, headers: valid_headers, as: :json
         publication_type.reload
         expect(publication_type.name).to eq("Magazine")
       end
 
       it "renders a JSON response with the publication_type" do
-        publication_type = PublicationType.create! valid_attributes
-        patch publication_type_url(publication_type),
+        patch api_v1_publication_type_url(publication_type),
               params: { publication_type: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -106,9 +106,9 @@ RSpec.describe "api/v1/publication_types", type: :request do
     end
 
     context "with invalid parameters" do
+      let!(:publication_type) { create(:publication_type, valid_attributes) }
       it "renders a JSON response with errors for the publication_type" do
-        publication_type = PublicationType.create! valid_attributes
-        patch publication_type_url(publication_type),
+        patch api_v1_publication_type_url(publication_type),
               params: { publication_type: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -117,10 +117,10 @@ RSpec.describe "api/v1/publication_types", type: :request do
   end
 
   describe "DELETE /destroy" do
+    let!(:publication_type) { create(:publication_type, valid_attributes) }
     it "destroys the requested publication_type" do
-      publication_type = PublicationType.create! valid_attributes
       expect {
-        delete publication_type_url(publication_type), headers: valid_headers, as: :json
+        delete api_v1_publication_type_url(publication_type), headers: valid_headers, as: :json
       }.to change(PublicationType, :count).by(-1)
     end
   end
