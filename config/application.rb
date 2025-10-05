@@ -16,7 +16,7 @@ module CbdbApi
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
-    config.factory_bot.definition_file_paths = ["spec/factories"]
+    config.factory_bot.definition_file_paths = [ "spec/factories" ]
 
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.

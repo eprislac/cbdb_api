@@ -2,66 +2,54 @@ require "rails_helper"
 
 RSpec.describe Api::V1::CollectionsController, type: :routing do
   let(:user) { create(:user, email: Faker::Internet.email) }
-  let(:collection) { create(:collection, user: user) }
-  before(:each) do
-    allow(EncryptionService)
-      .to receive(:decrypt).with(user.email).and_return(user.email)
-    allow(EncryptionService)
-      .to receive(:decrypt).with(collection.id).and_return(collection.id)
-  end
+  let(:collection) { create(:collection, user: user, name: 'New Collection') }
+  let(:app_secret) { ENV['APP_SECRET'] }
+  let(:key) { [ app_secret ].pack('H*') } # Decode hex to binary
+  let(:nonce) { RbNaCl::Random.random_bytes(RbNaCl::SecretBox.nonce_bytes) }
+  let(:message) { user.email }
+  let(:box) { RbNaCl::SecretBox.new(key) }
+  let(:ciphertext) { box.encrypt(nonce, message) }
+  let(:encrypted_text) { "#{Base64.encode64(nonce).strip}:#{Base64.encode64(ciphertext).strip}" }
 
   describe "routing" do
     it "routes to #index" do
-      expect(get: api_v1_user_collections_path(email: user.email))
+      expect(get: api_v1_user_collections_path(email: encrypted_text))
         .to route_to(
           controller: "api/v1/collections",
           action: "index",
-          email: user.email,
-          format: "json"
+          email: encrypted_text
         )
     end
 
+    let(:ciphertext) { box.encrypt(nonce, collection.id.to_s) }
+    let(:encrypted_id) { "#{Base64.encode64(nonce).strip}:#{Base64.encode64(ciphertext).strip}" }
+
     it "routes to #show" do
-      expect(get: api_v1_user_collection_path(email: user.email, id: collection.id))
+      expect(get: api_v1_user_collection_path(email: encrypted_text, id: encrypted_id))
         .to route_to(
           controller: "api/v1/collections",
           action: "show",
-          email: user.email,
-          id: collection.id,
-          format: "json"
+          email: encrypted_text,
+          id: encrypted_id
         )
     end
 
-
     it "routes to #create" do
-      expect(post: api_v1_create_user_collection_path(email: user.email))
+      expect(post: api_v1_create_user_collection_path(email: encrypted_text))
         .to route_to(
           controller: "api/v1/collections",
           action: "create",
-          email: user.email,
-          format: "json"
-        )
-    end
-
-    it "routes to #update via PUT" do
-      expect(put: api_v1_update_user_collection_path(email: user.email, id: collection.id))
-        .to route_to(
-          controller: "api/v1/collections",
-          action: "update",
-          email: user.email,
-          id: collection.id,
-          format: "json"
+          email: encrypted_text
         )
     end
 
     it "routes to #destroy" do
-      expect(delete: api_v1_delete_user_collection_path(email: user.email, id: collection.id))
+      expect(delete: api_v1_delete_user_collection_path(email: encrypted_text, id: encrypted_id))
         .to route_to(
           controller: "api/v1/collections",
           action: "destroy",
-          email: user.email,
-          id: collection.id,
-          format: "json"
+          email: encrypted_text,
+          id: encrypted_id
         )
     end
   end

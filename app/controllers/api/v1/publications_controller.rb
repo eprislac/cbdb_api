@@ -8,36 +8,46 @@ module Api
         @publications = Publication.all
 
         render json: @publications
+      rescue StandardError => e
+        Rails.logger.error("Failed to retrieve publications: #{e.message}")
+        render json: { error: "Failed to retrieve publications" }, status: :internal_server_error
       end
 
       # GET /publications/1
       def show
         render json: publication
+      rescue ActiveRecord::RecordNotFound => e
+        Rails.logger.error("Publication not found: #{e.message}")
+        render json: { error: "Publication not found" }, status: :not_found
       end
 
       # POST /publications
       def create
         @publication = Publication.new(publication_params)
 
-        if @publication.save
-          render json: publication, status: :created, location: @publication
-        else
-          render json: publication.errors, status: :unprocessable_entity
-        end
+        @publication.save!
+        render json: publication, status: :created
+      rescue ActiveRecord::RecordInvalid => e
+        Rails.logger.error("Failed to create publication: #{e.record.errors.full_messages.join(', ')}")
+        render json: e.record.errors, status: :unprocessable_entity
       end
 
       # PATCH/PUT /publications/1
       def update
-        if publication.update(publication_params)
-          render json: publication
-        else
-          render json: publication.errors, status: :unprocessable_entity
-        end
+        publication.update!(publication_params)
+        render json: publication
+      rescue ActiveRecord::RecordInvalid => e
+        Rails.logger.error("Failed to update publication: #{e.record.errors.full_messages.join(', ')}")
+        render json: e.record.errors, status: :unprocessable_entity
       end
 
       # DELETE /publications/1
       def destroy
         publication.destroy!
+        render json: { message: "Publication deleted successfully" }, status: :ok
+      rescue ActiveRecord::RecordNotDestroyed => e
+        Rails.logger.error("Failed to delete publication: #{e.record.errors.full_messages.join(', ')}")
+        render json: e.record.errors, status: :unprocessable_entity
       end
 
       private

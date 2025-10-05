@@ -32,6 +32,8 @@ RSpec.describe "api/v1/publication_types", type: :request do
     {}
   }
 
+  let(:publication_type) { create(:publication_type, valid_attributes) }
+
   describe "GET /index" do
     let!(:publication_type) { create(:publication_type, valid_attributes) }
     it "renders a successful response" do

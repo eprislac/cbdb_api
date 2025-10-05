@@ -23,11 +23,11 @@ module Api
       def create
         @credit = Credit.new(credit_params)
 
-        if @credit.save
-          render json: @credit, status: :created, location: @credit
-        else
-          render json: @credit.errors, status: :unprocessable_entity
-        end
+        @credit.save!
+        render json: @credit, status: :created
+      rescue StandardError => e
+        Rails.logger.error("ERROR: #{e.message}")
+        render json: @credit.errors, status: :unprocessable_entity
       end
 
       # PATCH/PUT /credits/1

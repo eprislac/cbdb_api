@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_30_153025) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_05_060403) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,6 +24,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_30_153025) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name", null: false
+    t.index ["name"], name: "index_collections_on_name", unique: true
     t.index ["user_id"], name: "index_collections_on_user_id"
   end
 
@@ -87,13 +89,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_30_153025) do
   end
 
   create_table "publication_types", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "publications", force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.integer "start_date"
     t.integer "end_date"
     t.integer "volume"
@@ -103,6 +105,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_30_153025) do
     t.datetime "updated_at", null: false
     t.index ["publication_type_id"], name: "index_publications_on_publication_type_id"
     t.index ["publisher_id"], name: "index_publications_on_publisher_id"
+    t.index ["title"], name: "index_publications_on_title", unique: true
   end
 
   create_table "publishers", force: :cascade do |t|

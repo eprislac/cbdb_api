@@ -71,15 +71,15 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-  
+
   # Include FactoryBot syntax methods
   config.include FactoryBot::Syntax::Methods
-  
+
   # DatabaseCleaner configuration
   config.before(:suite) do
     # Ensure factories are loaded
     FactoryBot.reload
-    
+
     DatabaseCleaner.clean_with(:truncation)
   end
 
@@ -97,5 +97,12 @@ RSpec.configure do |config|
 
   config.append_after(:each) do
     DatabaseCleaner.clean
+  end
+
+  Shoulda::Matchers.configure do |config|
+    config.integrate do |with|
+      with.test_framework :rspec
+      with.library :rails
+    end
   end
 end

@@ -24,7 +24,7 @@ module Api
         @by_line = ByLine.new(by_line_params)
 
         @by_line.save!
-        render json: @by_line, status: :created, location: @by_line
+        render json: @by_line, status: :created
       rescue StandardError => _e
         Rails.logger.error("ERROR: #{@by_line.errors.full_messages}")
         render json: @by_line.errors, status: :unprocessable_entity

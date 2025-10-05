@@ -19,7 +19,7 @@ RSpec.describe "/:email/collection/:collection_id/items", type: :request do
 
   let(:user) { create(:user, name: Faker::Name.name) }
   let(:condition) { create(:condition, name: "Near Mint") }
-  let(:collection) { create(:collection, user: user) }
+  let(:collection) { create(:collection, user: user, name: 'New Collection') }
   let(:publication_type) { create(:publication_type, name: "Comic Book") }
   let(:publisher) { create(:publisher, name: "Marvel Comics") }
   let(:publication) { create(:publication, title: "Amazing Spider-Man", publication_type_id: publication_type.id, publisher_id: publisher.id) }
@@ -134,7 +134,7 @@ RSpec.describe "/:email/collection/:collection_id/items", type: :request do
       let!(:copy) { create(:copy, valid_attributes) }
 
       it "updates the requested copy" do
-        patch api_v1_collection_item_url(email: 'x', collection_id: 'x', id: copy.id),
+        patch api_v1_update_collection_item_url(email: 'x', collection_id: 'x', id: copy.id),
               params: { collection_item: new_attributes },
               headers: valid_headers, as: :json
         new_copy = (response.parsed_body)
@@ -144,7 +144,7 @@ RSpec.describe "/:email/collection/:collection_id/items", type: :request do
 
 
       it "renders a JSON response with the copy" do
-        patch api_v1_collection_item_url(email: 'x', collection_id: 'x', id: copy.id),
+        patch api_v1_update_collection_item_url(email: 'x', collection_id: 'x', id: copy.id),
               params: { collection_item: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -154,7 +154,7 @@ RSpec.describe "/:email/collection/:collection_id/items", type: :request do
     context "with invalid parameters" do
       let!(:copy) { create(:copy, valid_attributes) }
       it "renders a JSON response with errors for the copy" do
-        patch api_v1_collection_item_url(email: 'x', collection_id: 'x', id: copy.id),
+        patch api_v1_update_collection_item_url(email: 'x', collection_id: 'x', id: copy.id),
               params: { collection_item: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to match(a_string_including("application/json"))

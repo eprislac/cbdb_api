@@ -31,7 +31,7 @@ module Api
 
         @collection_item.save!
         render json: @collection_item,
-          status: :created
+               status: :created
       rescue StandardError => _e
         Rails.logger.error("ERROR: #{@collection_item.errors.full_messages}")
         render json: @collection_item.errors, status: :unprocessable_entity

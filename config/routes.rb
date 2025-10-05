@@ -1,17 +1,4 @@
 Rails.application.routes.draw do
-  resources :credits
-  resources :covers
-  resources :collections
-  resources :users
-  resources :by_lines
-  resources :creators
-  resources :copies
-  resources :conditions
-  resources :issues
-  resources :publications
-  resources :publication_types
-  resources :publishers
-
   draw(:api)
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

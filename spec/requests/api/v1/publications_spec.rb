@@ -26,7 +26,6 @@ RSpec.describe "/publications", type: :request do
   describe "GET /index" do
     let!(:publication) { create(:publication, valid_attributes) }
     it "renders a successful response" do
-      Publication.create! valid_attributes
       get api_v1_publications_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end

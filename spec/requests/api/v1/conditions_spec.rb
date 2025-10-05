@@ -42,6 +42,7 @@ RSpec.describe "/conditions", type: :request do
   end
 
   describe "GET /show" do
+    let!(:condition) { create(:condition, name: 'Near Mint') }
     it "renders a successful response" do
       get api_v1_condition_url(condition), as: :json
       expect(response).to be_successful
@@ -87,7 +88,7 @@ RSpec.describe "/conditions", type: :request do
       let(:new_attributes) {
         { name: "Very Fine" }
       }
-      let(:condition) { create(:condition, name: 'Near Mint') }
+      let!(:condition) { create(:condition, name: 'Near Mint') }
 
       it "updates the requested condition" do
         patch api_v1_condition_url(condition),
@@ -105,7 +106,7 @@ RSpec.describe "/conditions", type: :request do
     end
 
     context "with invalid parameters" do
-      let(:condition) { create(:condition, name: 'Near Mint') }
+      let!(:condition) { create(:condition, name: 'Near Mint') }
       it "renders a JSON response with errors for the condition" do
         patch api_v1_condition_url(condition),
               params: { condition: invalid_attributes }, headers: valid_headers, as: :json
@@ -116,7 +117,7 @@ RSpec.describe "/conditions", type: :request do
   end
 
   describe "DELETE /destroy" do
-    let(:condition) { create(:condition, name: 'Near Mint') }
+    let!(:condition) { create(:condition, name: 'Near Mint') }
     it "destroys the requested condition" do
       expect {
         delete api_v1_condition_url(condition), headers: valid_headers, as: :json
