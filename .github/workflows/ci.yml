@@ -51,6 +51,8 @@ jobs:
           POSTGRES_DB: cbdb_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          APP_SECRET: secrets.APP_SECRET
+          SECRET_KEY_BASE: secrets.SECRET_KEY_BASE
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
