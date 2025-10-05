@@ -93,6 +93,6 @@ jobs:
           DB_PASSWORD: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: cbdb_test
-          APP_SECRET: secrets.APP_SECRET
-          SECRET_KEY_BASE: secrets.SECRET_KEY_BASE
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
         run: bundle exec rspec
