@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+require "pry"
+
 module Api
   module V1
-    class CollectionsController < ApplicationController
+    class CollectionsController < ApiController
       # GET /collections
       def index
         @collections = Collection.all
@@ -13,27 +15,29 @@ module Api
       # GET /collections/1
       def show
         render json: collection
+      rescue StandardError => e
+        Rails.logger.error("ERROR: #{e.message}")
+        render json: { error: e.message }, status: :unprocessable_entity
       end
 
       # POST /collections : Creates a new collection
       # @return [JSON] the new collection
       def create
-        @collection = user.collections.new(collection_params.except(:user_id))
-
-        if @collection.save
-          render json: @collection, status: :created, location: @collection
-        else
-          render json: @collection.errors, status: :unprocessable_entity
-        end
+        @collection = user.collections.new(name: collection_params[:name])
+        @collection.save!
+        render json: @collection, status: :created
+      rescue StandardError => e
+        Rails.logger.error("ERROR: #{collection.errors.full_messages}")
+        render json: @collection.errors, status: :unprocessable_entity
       end
 
       # PATCH/PUT /collections/1
       def update
-        if collection.update(collection_params.except(:user_id))
-          render json: collection
-        else
-          render json: collection.errors, status: :unprocessable_entity
-        end
+        collection.update!(collection_params.except(:user_id))
+        render json: collection
+      rescue StandardError => e
+        Rails.logger.error("ERROR: #{collection.errors.full_messages}")
+      render json: collection.errors, status: :unprocessable_entity
       end
 
       # DELETE /collections/1
@@ -43,20 +47,23 @@ module Api
 
       private
       def collection
-        @collection ||= relation.find(params.expect(:id))
+        @collection ||= relation.find(EncryptionService.decrypt(params.expect(:id)))
       end
 
-      # Only allow a list of trusted parameters through.
       def collection_params
-        params.expect(collection: [ :user_id ])
+        params.require(:collection).permit(:id, :name).merge(user_id:)
       end
 
       def email
-        decrypt(collection_params[:email])
+        EncryptionService.decrypt(params.expect(:email))
       end
 
       def user # helper method to fetch user by decrypted user_id
-        @user ||= User.find_by_email(decrypt(email))
+        @user ||= User.find_by_email(email)
+      end
+
+      def user_id
+        user.id
       end
 
       def relation

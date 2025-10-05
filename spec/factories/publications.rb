@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :publication do
+  factory :publication, class: 'Publication' do
     title { "MyString" }
     start_date { 1 }
     end_date { 1 }

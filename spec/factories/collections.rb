@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :collection do
+  factory :collection, class: 'Collection' do
     user { nil }
   end
 end

@@ -1,6 +1,6 @@
 FactoryBot.define do
-  factory :creator do
-    last_name { "MyString" }
-    first_name { "MyString" }
+  factory :creator, class: 'Creator' do
+    sequence(:last_name) { |n| "LastName#{n}" }
+    sequence(:first_name) { |n| "FirstName#{n}" }
   end
 end
