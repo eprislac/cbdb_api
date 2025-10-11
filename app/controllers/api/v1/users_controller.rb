@@ -10,7 +10,8 @@ module Api
 
       # GET /api/v1/users/by_enc_str
       def by_enc_str
-        Rails.logger.debug("enc_str: #{params.expect(:enc_str)}")
+        enc_str = params.expect(:enc_str)
+        Rails.logger.debug("Received enc_str: #{enc_str}")
         decrypted = EncryptionService.decrypt(params.expect(:enc_str))
         Rails.logger.debug("decrypted: #{decrypted}")
         @user ||= User.find_by_email(decrypted)

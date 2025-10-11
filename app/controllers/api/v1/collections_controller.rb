@@ -23,10 +23,15 @@ module Api
       # POST /collections : Creates a new collection
       # @return [JSON] the new collection
       def create
+        Rails.logger.debug("Creating new collection for user_id: #{user_id}")
+        Rails.logger.debug("params: #{params.inspect}")
         @collection = user.collections.new(name: collection_params[:name])
+        Rails.logger.debug(
+          "Creating collection with params: #{collection_params.inspect}"
+        )
         @collection.save!
         render json: @collection, status: :created
-      rescue StandardError => e
+      rescue StandardError => _e
         Rails.logger.error("ERROR: #{collection.errors.full_messages}")
         render json: @collection.errors, status: :unprocessable_entity
       end
@@ -51,7 +56,8 @@ module Api
       end
 
       def collection_params
-        params.require(:collection).permit(:id, :name).merge(user_id:)
+        Rails.logger.debug("collection_params: #{params.inspect}")
+        params.require(:collection).permit(:name)
       end
 
       def email
